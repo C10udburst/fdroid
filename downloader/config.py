@@ -14,7 +14,7 @@ class Spotify(modules.Telegram):
 
     def filter_media(self, media) -> bool:
         name = media['document']['attributes'][0]['file_name']
-        return name.startswith("Spotify") and name.contains("AB")
+        return name.startswith("Spotify") and "AB" in name
 
 
 modules = [
