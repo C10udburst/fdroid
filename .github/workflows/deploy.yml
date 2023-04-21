@@ -26,6 +26,11 @@ jobs:
       run: |
         echo "${{ secrets.KEYSTORE }}" | base64 -d > fdroid/keystore.jks
         chmod 600 fdroid/config.py fdroid/keystore.jks
+    
+    - name: Install fdroid
+      run: |
+        sudo apt update
+        sudo apt install -y wget software-properties-common fdroidserver ca-certificates
 
     - name: Fetch apks
       run: |
