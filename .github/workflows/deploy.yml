@@ -46,8 +46,9 @@ jobs:
         sudo chown $USER /fdroid
         fdroid deploy
         rm -rf /fdroid/archive
-        mkdir ~/public
-        mv -v /fdroid/* ~/public/
+        cd ..
+        mkdir public
+        mv -v /fdroid/* public/
       env:
         KEYSTOREPASS: ${{ secrets.KEYSTOREPASS }}
 
