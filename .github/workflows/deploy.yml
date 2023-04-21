@@ -42,11 +42,13 @@ jobs:
       run: |
         cd fdroid
         fdroid update
-        mkdir /fdroid
+        sudo mkdir /fdroid
+        sudo chown $USER /fdroid
         fdroid deploy
         rm -rf /fdroid/archive
         cd ..
-        mkdir public
+        sudo mkdir public
+        sudo chown $USER public
         mv -v /fdroid/* public/
       env:
         KEYSTOREPASS: ${{ secrets.KEYSTOREPASS }}
