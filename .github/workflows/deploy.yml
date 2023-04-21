@@ -38,7 +38,11 @@ jobs:
       run: |
         mkdir -p fdroid/repo
         python3 -m pip install -r downloader/requirements.txt
+        echo "${{ secrets.TG_SESSION }}" | base64 -d > main.session
         python3 ./downloader/main.py
+      env:
+        TG_ID: ${{ secrets.TG_ID }}
+        TG_HASH: ${{ secrets.TG_HASH }}
 
     - name: Build FDroid
       run: |

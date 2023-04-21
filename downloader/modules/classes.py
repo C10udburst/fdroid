@@ -1,12 +1,10 @@
-from abc import ABC, abstractmethod
 import asyncio
 
-class DownloadModule(ABC):
+class DownloadModule():
     apk_name: str
     
-    @abstractmethod
     async def find_url(self) -> str:
-        pass
+        raise NotImplementedError()
     
     async def download(self):
         # download using wget

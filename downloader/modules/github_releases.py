@@ -1,4 +1,3 @@
-from abc import abstractmethod
 from .classes import DownloadModule
 from httpx import AsyncClient
 
@@ -8,9 +7,8 @@ class GithubReleases(DownloadModule):
         self.repository = repository
         self.prereleases = prereleases
         
-    @abstractmethod
     def filter_asset(self, asset) -> bool:
-        pass
+        raise NotImplementedError()
     
     async def find_url(self) -> str:
         # use github api to find the latest apk dl

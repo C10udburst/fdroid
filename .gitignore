@@ -2,3 +2,4 @@ wget-log
 *.apk
 __pycache__
 *.jks
+main.session
