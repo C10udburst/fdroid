@@ -2,6 +2,8 @@ name: Publish fdroid repo
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '0 4 */2 * *'
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -49,6 +51,8 @@ jobs:
         cd ..
         mkdir public
         mv -v /fdroid/* public/
+        cp index.html public/repo/
+        cp index.html public/404.html
       env:
         KEYSTOREPASS: ${{ secrets.KEYSTOREPASS }}
 
