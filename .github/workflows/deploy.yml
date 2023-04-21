@@ -1,0 +1,54 @@
+name: Publish fdroid repo
+
+on:
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+  - uses: actions/checkout@v2
+
+  - name: Setup keystore
+    run: |
+      echo "${{ secrets.KEYSTORE }}" | base64 -d > fdroid/keystore.jks
+      chmod 600 fdroid/config.py fdroid/keystore.jks
+
+  - name: Fetch apks
+    run: |
+      mkdir -p fdroid/repo
+      python3 -m pip install -r downloader/requirements.txt
+      python3 ./downloader/main.py
+
+  - name: Build FDroid
+    run: |
+      cd fdroid
+      fdroid update
+      mkdir /fdroid
+      fdroid deploy
+      rm -rf /fdroid/archive
+      cd ..
+      mkdir public
+      mv -v /fdroid/* public/
+    env:
+      KEYSTOREPASS: ${{ secrets.KEYSTOREPASS }}
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v1
+      with:
+        path: public
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v1

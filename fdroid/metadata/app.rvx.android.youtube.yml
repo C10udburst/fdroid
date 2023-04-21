@@ -1,0 +1,16 @@
+Categories:
+  - Multimedia
+  - Internet
+License: MIT
+AuthorName: inotia00
+WebSite: https://github.com/inotia00/revanced-patches/tree/revanced-extended
+SourceCode: https://github.com/inotia00/revanced-patches/tree/revanced-extended
+IssueTracker: https://github.com/inotia00/revanced-patches/issues
+Changelog: https://github.com/NoName-exe/revanced-extended/releases
+
+Summary: ReVanced eXtended
+Description: |-
+    ReVanced Extended is developed by inotia00. It has extra features compared to regular ReVanced.
+
+AutoUpdateMode: None
+UpdateCheckMode: None
