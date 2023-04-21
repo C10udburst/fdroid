@@ -42,7 +42,7 @@ jobs:
       run: |
         cd fdroid
         fdroid update
-        sudo mdir /fdroid
+        sudo mkdir /fdroid
         sudo chown $USER /fdroid
         fdroid deploy
         rm -rf /fdroid/archive
