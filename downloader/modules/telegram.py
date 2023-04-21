@@ -25,6 +25,6 @@ class Telegram(DownloadModule):
                 if not self.filter_media(media):
                     continue
                 name = media['document']['attributes'][0]['file_name']
-                with open(name, "w+b") as fp:
+                with open(f"fdroid/repo/{name}", "w+b") as fp:
                     print(f"Downloading {name} from {self.channel}")
                     await client.download_media(msg, fp)
