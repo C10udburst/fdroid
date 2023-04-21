@@ -42,21 +42,16 @@ jobs:
       run: |
         cd fdroid
         fdroid update
-        sudo mkdir /fdroid
-        sudo chown $USER /fdroid
+        mkdir ~/public
         fdroid deploy
-        rm -rf /fdroid/archive
-        cd ..
-        sudo mkdir public
-        sudo chown $USER public
-        mv -v /fdroid/* public/
+        rm -rf ~/public/archive
       env:
         KEYSTOREPASS: ${{ secrets.KEYSTOREPASS }}
 
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v1
       with:
-        path: public
+        path: ~/public
 
     - name: Deploy to GitHub Pages
       id: deployment

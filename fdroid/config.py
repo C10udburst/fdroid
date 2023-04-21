@@ -166,6 +166,7 @@ keydname = "CN=localhost, OU=F-Droid"
 # multiple servers to sync to by wrapping the whole thing in {} or [], and
 # including the serverwebroot strings in a comma-separated list.
 #
+serverwebroot = "~/public"
 # serverwebroot = 'user@example:/var/www/fdroid'
 # serverwebroot = {
 #     'foo.com:/usr/share/nginx/www/fdroid',
