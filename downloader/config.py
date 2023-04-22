@@ -18,7 +18,7 @@ class Spotify(modules.Telegram):
 
 class Vendetta(modules.MergeSplitModule):
     def __init__(self):
-        super.__init__("vendetta-arm64")
+        super().__init__("vendetta-arm64")
 
     async def find_url(self):
         async with AsyncClient() as client:
