@@ -22,7 +22,11 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3.10' 
 
     - name: Setup keystore
       run: |
@@ -34,12 +38,16 @@ jobs:
         sudo apt update
         sudo apt install -y wget software-properties-common fdroidserver ca-certificates
 
-    - name: Fetch apks
+    - name: Setup downloader deps
       run: |
         mkdir -p fdroid/repo
+        mkdir work
         python3 -m pip install -r downloader/requirements.txt
         echo "${{ secrets.TG_SESSION }}" | base64 -d > main.session
-        python3 ./downloader/main.py
+        wget "https://github.com/REAndroid/APKEditor/releases/download/V1.1.8/APKEditor-1.1.8.jar" -O APKEditor.jar
+
+    - name: Fetch apks
+      run: python3 ./downloader/main.py
       env:
         TG_ID: ${{ secrets.TG_ID }}
         TG_HASH: ${{ secrets.TG_HASH }}

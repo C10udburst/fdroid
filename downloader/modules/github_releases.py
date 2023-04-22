@@ -1,5 +1,6 @@
 from .classes import DownloadModule
 from httpx import AsyncClient
+from collections.abc import Iterator
 
 
 class GithubReleases(DownloadModule):
