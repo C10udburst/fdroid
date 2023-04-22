@@ -40,5 +40,5 @@ class MergeSplitModule(DownloadModule):
         process = await asyncio.create_subprocess_exec("jarsigner", "-verbose","-sigalg","SHA1withRSA",
             "-digestalg","SHA1","-keystore", "fdroid/keystore.jks",f"{self.name}_merged.apk", "repokey", "-storepass", os.getenv("KEYSTOREPASS"))
         await process.wait()
-        process = await asyncio.create_subprocess_exec("zipalign", "-v", "4", f"{self.name}_merged.apk", f"fdroid/repo/{self.name}")
+        process = await asyncio.create_subprocess_exec("zipalign", "-v", "4", f"{self.name}_merged.apk", f"fdroid/repo/{self.name}.apk")
         await process.wait()
