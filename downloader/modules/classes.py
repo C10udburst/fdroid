@@ -12,7 +12,8 @@ class DownloadModule():
         async for url in self.find_url():
             name = url.split("/")[-1]
             print(f"Downloading {name} from {url}")
-            await asyncio.create_subprocess_exec("wget", "--show-progress", url, "-O", f"fdroid/repo/{name}")
+            process = await asyncio.create_subprocess_exec("wget", "--show-progress", url, "-O", f"fdroid/repo/{name}")
+            await process.wait()
 
 class MergeSplitModule(DownloadModule):
 
@@ -27,13 +28,17 @@ class MergeSplitModule(DownloadModule):
         async for url in self.find_url():
             name = url.split("/")[-1]
             print(f"Downloading {name} from {url}")
-            await asyncio.create_subprocess_exec("wget", "--show-progress", url, "-O", f"{self.name}/{name}")
+            process = await asyncio.create_subprocess_exec("wget", "--show-progress", url, "-O", f"{self.name}/{name}")
+            await process.wait()
 
     async def download(self):
         # join apks
         await self.download_splits()
         print("merging splits")
-        await asyncio.create_subprocess_exec("java", "-jar", "APKEditor.jar", "m", "-i", self.name)
-        await asyncio.create_subprocess_exec("jarsigner", "-verbose","-sigalg","SHA1withRSA",
+        process = await asyncio.create_subprocess_exec("java", "-jar", "APKEditor.jar", "m", "-i", self.name)
+        await process.wait()
+        process = await asyncio.create_subprocess_exec("jarsigner", "-verbose","-sigalg","SHA1withRSA",
             "-digestalg","SHA1","-keystore", "fdroid/keystore.jks",f"{self.name}_merged.apk", "repokey", "-storepass", os.getenv("KEYSTOREPASS"))
-        await asyncio.create_subprocess_exec("zipalign", "-v", "4", f"{self.name}_merged.apk", f"fdroid/repo/{self.name}")
+        await process.wait()
+        process = await asyncio.create_subprocess_exec("zipalign", "-v", "4", f"{self.name}_merged.apk", f"fdroid/repo/{self.name}")
+        await process.wait()
