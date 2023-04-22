@@ -1,0 +1,15 @@
+Categories:
+  - Internet
+License: BSD-3
+AuthorName: Beef
+WebSite: https://github.com/vendetta-mod/Vendetta
+SourceCode: https://github.com/vendetta-mod/Vendetta
+IssueTracker: https://github.com/vendetta-mod/Vendetta/issues
+Changelog: https://discord.k6.tf/
+
+Summary: Vendetta
+Description: |-
+  A mod for Discord's mobile apps.
+
+AutoUpdateMode: None
+UpdateCheckMode: None

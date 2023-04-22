@@ -51,8 +51,9 @@ jobs:
       env:
         TG_ID: ${{ secrets.TG_ID }}
         TG_HASH: ${{ secrets.TG_HASH }}
+        KEYSTOREPASS: ${{ secrets.KEYSTOREPASS }}
 
-    - name: Build FDroid
+    - name: Build fdroid
       run: |
         cd fdroid
         fdroid update
