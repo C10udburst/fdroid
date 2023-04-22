@@ -37,5 +37,5 @@ class MergeSplitModule(DownloadModule):
         print("merging splits")
         process = await asyncio.create_subprocess_exec("java", "-jar", "APKEditor.jar", "m", "-i", self.name)
         await process.wait()
-        process = await asyncio.create_subprocess_exec("apksigner", "sign", "-v", "--ks", "fdroid/keystore.jks", "--ks-key-alias", "repokey", "--ks-pass", os.getenv("KEYSTOREPASS"), "--out", f"fdroid/repo/{self.name}.apk", f"{self.name}_merged.apk")
+        process = await asyncio.create_subprocess_exec("apksigner", "sign", "-v", "--ks", "fdroid/keystore.jks", "--ks-key-alias", "repokey", "--ks-pass", f"pass:os.getenv('KEYSTOREPASS')", "--out", f"fdroid/repo/{self.name}.apk", f"{self.name}_merged.apk")
         await process.wait()
