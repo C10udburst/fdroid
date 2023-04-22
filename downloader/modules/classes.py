@@ -18,7 +18,7 @@ class MergeSplitModule(DownloadModule):
 
     def __init__(self, name):
         self.name = name
-        os.mkdirs(name, exists_ok=True)
+        os.makedirs(name, exists_ok=True)
 
     async def find_url(self) -> Iterator[str]:
         raise NotImplementedError()
