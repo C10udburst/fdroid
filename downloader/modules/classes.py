@@ -1,13 +1,14 @@
 import asyncio
+from collections.abc import Iterator
 
 class DownloadModule():
-    apk_name: str
     
-    async def find_url(self) -> str:
+    async def find_url(self) -> Iterator[str]:
         raise NotImplementedError()
     
     async def download(self):
         # download using wget
-        url = await self.find_url()
-        print(f"Downloading {self.apk_name} from {url}")
-        await asyncio.create_subprocess_exec("wget", "--show-progress", url, "-O", f"fdroid/repo/{self.apk_name}")
+        async for url in self.find_url():
+            name = url.split("/")[-1]
+            print(f"Downloading {name} from {url}")
+            await asyncio.create_subprocess_exec("wget", "--show-progress", url, "-O", f"fdroid/repo/{name}")
