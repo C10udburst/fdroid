@@ -7,6 +7,13 @@ class YoutubeRevancedExtended(modules.GithubReleases):
         
     def filter_asset(self, asset) -> bool:
         return asset['name'].startswith('youtube-revanced-extended')
+    
+class Messenger(modules.GithubReleases):
+    def __init__(self):
+        super().__init__("c10udburst-actions/revanced-builder", False)
+        
+    def filter_asset(self, asset) -> bool:
+        return asset['name'].startswith('messenger')
 
 class Spotify(modules.Telegram):
     def __init__(self):
@@ -31,6 +38,7 @@ class Vendetta(modules.MergeSplitModule):
 
 modules = [
     YoutubeRevancedExtended(),
+    Messenger(),
     Spotify(),
     Vendetta()
 ]
