@@ -1,0 +1,15 @@
+Categories:
+  - Internet
+License: GPL-3.0
+AuthorName: revanced
+WebSite: https://github.com/revanced/revanced-patches
+SourceCode: https://github.com/revanced/revanced-patches
+IssueTracker: https://github.com/revanced/revanced-patches/issues
+Changelog: https://github.com/c10udburst-actions/revanced-builder/releases
+
+Summary: Messenger
+Description: |-
+    Messenger without ads.
+
+AutoUpdateMode: None
+UpdateCheckMode: None
