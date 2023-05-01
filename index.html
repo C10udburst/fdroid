@@ -53,7 +53,7 @@
             align-items: center;
         }
         #items {
-            margin: 0 auto;
+            margin: 2em auto;
             display: grid;
             gap: 1rem;
         }
@@ -66,6 +66,38 @@
             border-radius: 10px;
         }
     </style>
+    <script>
+    function fallbackCopyTextToClipboard(text) {
+      var textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.top = "0";
+      textArea.style.left = "0";
+      textArea.style.position = "fixed";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        var successful = document.execCommand('copy');
+        var msg = successful ? 'successful' : 'unsuccessful';
+        console.log('Fallback: Copying text command was ' + msg);
+      } catch (err) {
+        console.error('Fallback: Oops, unable to copy', err);
+      }
+      document.body.removeChild(textArea);
+    }
+    function copyTextToClipboard(text) {
+      if (!navigator.clipboard) {
+        fallbackCopyTextToClipboard(text);
+        return;
+      }
+      navigator.clipboard.writeText(text).then(function() {
+        console.log('Async: Copying to clipboard was successful!');
+      }, function(err) {
+        console.error('Async: Could not copy text: ', err);
+        fallbackCopyTextToClipboard(text);
+      });
+    }
+    </script>
 </head>
 <body>
     <main>
@@ -75,9 +107,9 @@
                 Cloudburst
             </p>'s fdroid repository.
         </h1>
-        <p>To install this repository, open the following in F-Droid:</p>
+        <p>To install paste the url in your fdroid app.</p>
         <div>
-            <a href="https://c10udburst.github.io/fdroid/repo?fingerprint=0E2D249AB2545EC52DCF67AB43464FB2F7B11EEC71F6D8891108FDD8034A58A5" class="button">Install</a>
+            <a href="#!" class="button" onclick="copyTextToClipboard('https://c10udburst.github.io/fdroid/repo?fingerprint=0E2D249AB2545EC52DCF67AB43464FB2F7B11EEC71F6D8891108FDD8034A58A5')">Copy url</a>
             <a href="https:/github.com/c10udburst/fdroid" class="button">View Source</a>
         </div>
         <div id="items">
