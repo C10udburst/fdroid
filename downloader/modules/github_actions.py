@@ -26,7 +26,7 @@ class GithubActions(DownloadModule):
             if not self.filter_asset(file):
                 continue
             name = file.split("/")[-1]
-            process = await asyncio.create_subprocess_exec("mv","-v", file, f"fdroid/repo/{name}")
+            process = await asyncio.create_subprocess_exec("mv","-v", file, f"fdroid/repo/{self.uniq_prefix}-{name}")
             await process.wait()
         process = await asyncio.create_subprocess_exec("rm", "-rf", self.name)
         await process.wait()
