@@ -1,6 +1,14 @@
 import modules
 from httpx import AsyncClient
 
+
+class Cloudstream(modules.GithubReleases):
+    def __init__(self):
+        super().__init__("recloudstream/cloudstream", True, limit=2)
+        
+    def filter_asset(self, asset) -> bool:
+        return True
+
 class YoutubeRevancedExtended(modules.GithubReleases):
     def __init__(self):
         super().__init__("NoName-exe/revanced-extended", False, limit=2)
@@ -34,11 +42,19 @@ class Vendetta(modules.MergeSplitModule):
         version = versions['latest']['stable']
         for name in ["base-360-lspatched", "split_config.arm64_v8a-360-lspatched","split_config.en-360-lspatched","split_config.xxhdpi-360-lspatched"]:
             yield f"https://discord.k6.tf/{version}/{name}.apk"
+            
+class Logra(modules.GithubActions):
+    def __init__(self):
+        super().__init__("logra", "wingio/Logra", "build-debug", "main", "app-debug.zip")
 
+    def filter_asset(self, path) -> bool:
+        return True
 
 modules = [
+    Cloudstream(),
     YoutubeRevancedExtended(),
     Messenger(),
     Spotify(),
-    Vendetta()
+    Vendetta(),
+    Logra()
 ]

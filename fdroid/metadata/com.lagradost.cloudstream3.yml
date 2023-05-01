@@ -1,0 +1,24 @@
+Categories:
+  - Multimedia
+  - Internet
+License: MIT
+AuthorName: LagradOst
+WebSite: https://recloudstream.github.io/
+SourceCode: https://github.com/recloudstream/cloudstream
+IssueTracker: https://github.com/recloudstream/cloudstream/issues
+Changelog: https://github.com/recloudstream/cloudstream/releases
+
+Summary: Android app for streaming and downloading Movies, TV-Series and Anime.
+Description: |-
+    CloudStream 3 is an Android app for streaming and downloading Movies, TV-Series and Anime.
+
+    FEATURES:
+
+    * AdFree, No ads whatsoever
+    * No tracking/analytics
+    * Bookmarks
+    * Download and stream movies, tv-shows and anime
+    * Chromecast
+
+AutoUpdateMode: None
+UpdateCheckMode: None

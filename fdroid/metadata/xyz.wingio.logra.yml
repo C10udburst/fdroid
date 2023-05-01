@@ -1,0 +1,13 @@
+Categories:
+License: GPL-2.0
+AuthorName: wingio
+WebSite: https://github.com/wingio/Logra
+SourceCode: https://github.com/wingio/Logra
+IssueTracker: https://github.com/wingio/Logra/issues
+Changelog: https://github.com/wingio/Logra
+
+Summary: Material You logcat viewer for Android
+Description: Material You logcat viewer for Android
+
+AutoUpdateMode: None
+UpdateCheckMode: None
