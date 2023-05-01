@@ -3,7 +3,7 @@ from httpx import AsyncClient
 
 class YoutubeRevancedExtended(modules.GithubReleases):
     def __init__(self):
-        super().__init__("NoName-exe/revanced-extended", False)
+        super().__init__("NoName-exe/revanced-extended", False, limit=2)
         
     def filter_asset(self, asset) -> bool:
         return asset['name'].startswith('youtube-revanced-extended')

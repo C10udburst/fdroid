@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cloudburst's fdroid repository</title>
     <style>
+        * {
+            box-sizing: border-box;
+        }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #121212;
@@ -27,24 +30,40 @@
             font-size: min(5.5vw, 2.5em);
         }
         .button {
-            background-color: #3f51b5;
+            background: rgb(8,8,175);
+            background: linear-gradient(13deg, rgba(8,8,175,1) 0%, rgba(0,212,255,1) 100%);;
             color: #e0e0e0;
             display: inline-block;
             padding: 8px 16px;
             border-radius: 4px;
             text-decoration: none;
-            transition: 0.2s;
+            transition: 0.2s ease all;
         }
         .button:hover {
-            background-color: #303f9f;
+            background: rgb(0,0,255);
+            background: linear-gradient(13deg, rgba(0,0,255,1) 0%, rgba(0,241,255,1) 100%);
         }
         .button:active {
-            background-color: #1a237e;
+            background: rgb(0,0,255);
+            background: linear-gradient(13deg, rgba(0,0,255,1) 0%, rgba(0,241,255,1) 100%);
         }
         main {
             display: flex;
             flex-direction: column;
             align-items: center;
+        }
+        #items {
+            margin: 0 auto;
+            display: grid;
+            gap: 1rem;
+        }
+        @media (min-width: 600px) {
+            #items { grid-template-columns: repeat(2, 1fr); }
+        }
+        #items > div {
+            background-color: #2e3438;
+            padding: 1.5em;
+            border-radius: 10px;
         }
     </style>
 </head>
@@ -57,7 +76,45 @@
             </p>'s fdroid repository.
         </h1>
         <p>To install this repository, open the following in F-Droid:</p>
-        <a href="https://c10udburst.github.io/fdroid/repo?fingerprint=0E2D249AB2545EC52DCF67AB43464FB2F7B11EEC71F6D8891108FDD8034A58A5" class="button">Install</a>
+        <div>
+            <a href="https://c10udburst.github.io/fdroid/repo?fingerprint=0E2D249AB2545EC52DCF67AB43464FB2F7B11EEC71F6D8891108FDD8034A58A5" class="button">Install</a>
+            <a href="https:/github.com/c10udburst/fdroid" class="button">View Source</a>
+        </div>
+        <div id="items">
+        </div>
     </main>
+    <script>
+        fetch(window.location.origin+"/fdroid/repo/index.xml")
+            .then(r=>r.text())
+            .then(str=> new window.DOMParser().parseFromString(str, "text/xml"))
+            .then(data=> {
+                const container = document.querySelector("#items")
+                data.querySelectorAll("application")
+                    .forEach(app => {
+                        const name = app.querySelector("name")?.textContent;
+                        const summary = app.querySelector("summary")?.textContent;
+                        
+                        let extra = [];
+                        extra.push(app.querySelector("package version")?.textContent);
+                        extra.push(app.querySelector("package nativecode")?.textContent);
+
+                        const card = document.createElement("div");
+
+                        const nameElem = document.createElement("h3");
+                        nameElem.innerText = name;
+                        card.appendChild(nameElem);
+
+                        const summaryElem = document.createElement("p");
+                        summaryElem.innerText = summary;
+                        card.appendChild(summaryElem);
+
+                        const extraElem = document.createElement("code");
+                        extraElem.innerText = extra.filter(it=>it).join(" ");
+                        card.appendChild(extraElem);
+
+                        container.appendChild(card);
+                    })
+            })
+    </script>
 </body>
 </html>
