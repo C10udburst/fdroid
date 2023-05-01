@@ -65,38 +65,41 @@
             padding: 1.5em;
             border-radius: 10px;
         }
+        #items a {
+            color: #e0e0e0;
+        }
     </style>
     <script>
-    function fallbackCopyTextToClipboard(text) {
-      var textArea = document.createElement("textarea");
-      textArea.value = text;
-      textArea.style.top = "0";
-      textArea.style.left = "0";
-      textArea.style.position = "fixed";
-      document.body.appendChild(textArea);
-      textArea.focus();
-      textArea.select();
-      try {
-        var successful = document.execCommand('copy');
-        var msg = successful ? 'successful' : 'unsuccessful';
-        console.log('Fallback: Copying text command was ' + msg);
-      } catch (err) {
-        console.error('Fallback: Oops, unable to copy', err);
-      }
-      document.body.removeChild(textArea);
-    }
-    function copyTextToClipboard(text) {
-      if (!navigator.clipboard) {
-        fallbackCopyTextToClipboard(text);
-        return;
-      }
-      navigator.clipboard.writeText(text).then(function() {
-        console.log('Async: Copying to clipboard was successful!');
-      }, function(err) {
-        console.error('Async: Could not copy text: ', err);
-        fallbackCopyTextToClipboard(text);
-      });
-    }
+        function fallbackCopyTextToClipboard(text) {
+          var textArea = document.createElement("textarea");
+          textArea.value = text;
+          textArea.style.top = "0";
+          textArea.style.left = "0";
+          textArea.style.position = "fixed";
+          document.body.appendChild(textArea);
+          textArea.focus();
+          textArea.select();
+          try {
+            var successful = document.execCommand('copy');
+            var msg = successful ? 'successful' : 'unsuccessful';
+            console.log('Fallback: Copying text command was ' + msg);
+          } catch (err) {
+            console.error('Fallback: Oops, unable to copy', err);
+          }
+          document.body.removeChild(textArea);
+        }
+        function copyTextToClipboard(text) {
+          if (!navigator.clipboard) {
+            fallbackCopyTextToClipboard(text);
+            return;
+          }
+          navigator.clipboard.writeText(text).then(function() {
+            console.log('Async: Copying to clipboard was successful!');
+          }, function(err) {
+            console.error('Async: Could not copy text: ', err);
+            fallbackCopyTextToClipboard(text);
+          });
+        }
     </script>
 </head>
 <body>
@@ -125,6 +128,7 @@
                     .forEach(app => {
                         const name = app.querySelector("name")?.textContent;
                         const summary = app.querySelector("summary")?.textContent;
+                        const url = app.querySelector("source")?.textContent || app.querySelector("web")?.textContent || "#!";
                         
                         let extra = [];
                         extra.push(app.querySelector("package version")?.textContent);
@@ -132,9 +136,11 @@
 
                         const card = document.createElement("div");
 
-                        const nameElem = document.createElement("h3");
-                        nameElem.innerText = name;
-                        card.appendChild(nameElem);
+                        const urlElem = document.createElement("a");
+                        urlElem.href = url
+                        urlElem.target = "_blank";
+                        urlElem.innerHTML = `<h3>${name}</h3>`
+                        card.appendChild(urlElem);
 
                         const summaryElem = document.createElement("p");
                         summaryElem.innerText = summary;
