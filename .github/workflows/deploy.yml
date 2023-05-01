@@ -41,7 +41,6 @@ jobs:
     - name: Setup downloader deps
       run: |
         mkdir -p fdroid/repo
-        mkdir work
         python3 -m pip install -r downloader/requirements.txt
         echo "${{ secrets.TG_SESSION }}" | base64 -d > main.session
         wget "https://github.com/REAndroid/APKEditor/releases/download/V1.1.9/APKEditor-1.1.9.jar" -O APKEditor.jar

@@ -20,13 +20,13 @@ class GithubActions(DownloadModule):
         os.mkdir(self.name)
         process = await asyncio.create_subprocess_exec("wget", "-nv", self.url, "-O", f"{self.name}/{self.artifact}")
         await process.wait()
-        process = await asyncio.create_subprocess_exec("7z", "x", f"{self.name}/{self.artifact}")
+        process = await asyncio.create_subprocess_exec("7z", "x", f"{self.name}/{self.artifact}", f"-O{self.name}")
         await process.wait()
         for file in glob(f"{self.name}/**.apk"):
             if not self.filter_asset(file):
                 continue
             name = file.split("/")[-1]
-            process = await asyncio.create_subprocess_exec("mv","-v", file, f"fdroid/repo/{self.uniq_prefix}-{name}.apk")
+            process = await asyncio.create_subprocess_exec("mv","-v", file, f"fdroid/repo/{self.uniq_prefix}-{name}")
             await process.wait()
         process = await asyncio.create_subprocess_exec("rm", "-rf", self.name)
         await process.wait()
