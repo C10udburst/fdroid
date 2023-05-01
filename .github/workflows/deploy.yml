@@ -53,6 +53,9 @@ jobs:
         TG_HASH: ${{ secrets.TG_HASH }}
         KEYSTOREPASS: ${{ secrets.KEYSTOREPASS }}
 
+    - name: List apks
+      run: ls -lah fdroid/repo/**.apk
+
     - name: Build fdroid
       run: |
         cd fdroid
