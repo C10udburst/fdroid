@@ -9,7 +9,7 @@ class Cloudstream(modules.GithubReleases):
     def filter_asset(self, asset) -> bool:
         return True
 
-class KiwiBrowser():
+class KiwiBrowser(modules.GithubReleases):
     def __init__(self):
         super().__init__("kiwibrowser/src.next", True)
 
@@ -59,6 +59,7 @@ class Logra(modules.GithubActions):
 
 modules = [
     Cloudstream(),
+    KiwiBrowser(),
     YoutubeRevancedExtended(),
     Messenger(),
     Spotify(),
