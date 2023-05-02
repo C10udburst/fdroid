@@ -9,6 +9,13 @@ class Cloudstream(modules.GithubReleases):
     def filter_asset(self, asset) -> bool:
         return True
 
+class KiwiBrowser():
+    def __init__(self):
+        super().__init__("kiwibrowser/src.next", True)
+
+    def filter_asset(self, asset) -> bool:
+        return asset['name'].startswith('com.kiwibrowser.browser-arm64')
+
 class YoutubeRevancedExtended(modules.GithubReleases):
     def __init__(self):
         super().__init__("NoName-exe/revanced-extended", False, limit=2)

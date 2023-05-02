@@ -1,0 +1,28 @@
+Categories:
+  - Internet
+License: BSD-3
+AuthorName: kiwibrowser
+WebSite: https://kiwibrowser.com/
+SourceCode: https://github.com/kiwibrowser/src.next
+IssueTracker: https://github.com/kiwibrowser/src.next/issues
+Changelog: https://github.com/kiwibrowser/src.next/releases
+
+Summary: Kiwi Browser is made to browse the internet, read news, watch videos and listen to music, without annoyances.
+Description: |-
+    Kiwi Browser is made to browse the internet, read news, watch videos and listen to music, without annoyances.
+
+    FEATURES:
+    * Beautiful, customizable night mode.
+    * Extensive privacy settings, including ability to hide content and prevent screenshots in Incognito mode. Never worry about privacy again.
+    * Never strain your fingers again! Optional bottom address bar and support for easy one-handed usage.
+    * Kiwi Extensions Bottom Bar
+    * Kiwi Home Light Bottom Bar
+    * Kiwi Home Dark Bottom Bar
+    * Kiwi Extensions Bottom Bar
+    * Kiwi Home Light Bottom Bar
+    * Supports most chrome desktop extensions!
+    * An optimized engine along with automatic blocking of intrusive ads give you blazing fast page load speeds!
+    * Powerful Ad and Pop-Up Blocker. Browse without distractions!
+
+AutoUpdateMode: None
+UpdateCheckMode: None
