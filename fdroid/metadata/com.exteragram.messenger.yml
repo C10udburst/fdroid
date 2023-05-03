@@ -1,0 +1,17 @@
+Categories:
+  - Internet
+  - Messaging
+  - Modded
+License: GPL-2.0
+AuthorName: exteraSquad
+WebSite: https://extera.codes/
+SourceCode: https://github.com/exteraSquad/exteraGram
+IssueTracker: https://github.com/exteraSquad/exteraGram/issues
+Changelog: https://github.com/exteraSquad/exteraGram/releases
+
+Summary: Telegram client based on Android sources with new features.
+Description: |-
+    Telegram client based on Android sources with new features.
+
+AutoUpdateMode: None
+UpdateCheckMode: None
