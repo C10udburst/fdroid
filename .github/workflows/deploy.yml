@@ -43,7 +43,7 @@ jobs:
         mkdir -p fdroid/repo
         python3 -m pip install -r downloader/requirements.txt
         echo "${{ secrets.TG_SESSION }}" | base64 -d > main.session
-        wget "https://github.com/REAndroid/APKEditor/releases/download/V1.1.9/APKEditor-1.1.9.jar" -O APKEditor.jar
+        wget "https://github.com/REAndroid/APKEditor/releases/download/V1.2.0/APKEditor-1.2.0.jar" -O APKEditor.jar
 
     - name: Fetch apks
       run: python3 ./downloader/main.py
