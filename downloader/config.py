@@ -57,6 +57,13 @@ class Logra(modules.GithubActions):
     def filter_asset(self, path) -> bool:
         return True
 
+class Gloom(modules.GithubActions):
+    def __init__(self):
+        super().__init__("gloom", "MateriiApps/Gloom", "android", "main", "artifact.zip")
+
+    def filter_asset(self, path) -> bool:
+        return True
+
 class ExteraGram(modules.GithubReleases):
     def __init__(self):
         super().__init__("exteraSquad/exteraGram", False)
@@ -72,5 +79,6 @@ modules = [
     Spotify(),
     Vendetta(),
     Logra(),
+    Gloom(),
     ExteraGram()
 ]

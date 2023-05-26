@@ -1,0 +1,15 @@
+Categories:
+  - Utility
+  - Internet
+License: GPL-3.0
+AuthorName: MateriiApps
+WebSite: https://github.com/MateriiApps/Gloom
+SourceCode: https://github.com/MateriiApps/Gloom
+IssueTracker: https://github.com/MateriiApps/Gloom/issues
+Changelog: https://github.com/MateriiApps/Gloom
+
+Summary: A Material You GitHub Mobile client
+Description: A Material You GitHub Mobile client
+
+AutoUpdateMode: None
+UpdateCheckMode: None
