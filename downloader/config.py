@@ -29,6 +29,13 @@ class Messenger(modules.GithubReleases):
         
     def filter_asset(self, asset) -> bool:
         return asset['name'].startswith('messenger')
+    
+class YTRevanced(modules.GithubReleases):
+    def __init__(self):
+        super().__init__("j-hc/revanced-magisk-module", False)
+        
+    def filter_asset(self, asset) -> bool:
+        return asset['name'].startswith('youtube-revanced')
 
 class Spotify(modules.Telegram):
     def __init__(self):
@@ -75,6 +82,7 @@ modules = [
     Cloudstream(),
     KiwiBrowser(),
     YoutubeRevancedExtended(),
+    YTRevanced(),
     Messenger(),
     Spotify(),
     Vendetta(),
