@@ -1,0 +1,17 @@
+Categories:
+  - Multimedia
+  - Internet
+  - Modded
+License: GPL-3.0
+AuthorName: revanced
+WebSite: https://github.com/revanced/revanced-patches/
+SourceCode: https://github.com/revanced/revanced-patches
+IssueTracker: https://github.com/revanced/revanced-patches
+Changelog: https://github.com/j-hc/revanced-magisk-module/releases
+
+Summary: ReVanced
+Description: |-
+    ReVanced is a YouTube app mod
+
+AutoUpdateMode: None
+UpdateCheckMode: None
