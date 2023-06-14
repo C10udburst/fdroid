@@ -1,0 +1,15 @@
+Categories:
+  - Utility
+  - System
+License: GPL-3.0
+AuthorName: F0x1d
+WebSite: https://github.com/F0x1d/LogFox
+SourceCode: https://github.com/F0x1d/LogFox
+IssueTracker: https://github.com/F0x1d/LogFox/issues
+Changelog: https://github.com/F0x1d/LogFox
+
+Summary: Yet another LogCat reader for Android
+Description: Yet another LogCat reader for Android (Material You). 
+
+AutoUpdateMode: None
+UpdateCheckMode: None

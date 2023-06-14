@@ -77,6 +77,13 @@ class ExteraGram(modules.GithubReleases):
         
     def filter_asset(self, asset) -> bool:
         return "arm64" in asset['name']
+    
+class LogFox(modules.GithubReleases):
+    def __init__(self):
+        super().__init__("F0x1d/LogFox", True, limit=2)
+        
+    def filter_asset(self, asset) -> bool:
+        return True
 
 modules = [
     Cloudstream(),
@@ -88,5 +95,6 @@ modules = [
     Vendetta(),
     Logra(),
     Gloom(),
-    ExteraGram()
+    ExteraGram(),
+    LogFox()
 ]
