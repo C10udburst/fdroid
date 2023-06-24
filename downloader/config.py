@@ -18,21 +18,21 @@ class KiwiBrowser(modules.GithubReleases):
 
 class YoutubeRevancedExtended(modules.GithubReleases):
     def __init__(self):
-        super().__init__("NoName-exe/revanced-extended", False, limit=2)
+        super().__init__("NoName-exe/revanced-extended", False, limit=3)
         
     def filter_asset(self, asset) -> bool:
         return asset['name'].startswith('youtube-revanced-extended')
     
 class Messenger(modules.GithubReleases):
     def __init__(self):
-        super().__init__("c10udburst-actions/revanced-builder", False)
+        super().__init__("j-hc/revanced-magisk-module", False, limit=3)
         
     def filter_asset(self, asset) -> bool:
         return asset['name'].startswith('messenger')
     
 class YTRevanced(modules.GithubReleases):
     def __init__(self):
-        super().__init__("j-hc/revanced-magisk-module", False)
+        super().__init__("j-hc/revanced-magisk-module", False, limit=3)
         
     def filter_asset(self, asset) -> bool:
         return asset['name'].startswith('youtube-revanced')
