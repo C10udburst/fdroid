@@ -66,6 +66,7 @@ jobs:
         cd ..
         mkdir public
         mv -v /fdroid/* public/
+        cp index.html public/
         cp index.html public/repo/
         cp index.html public/404.html
       env:
