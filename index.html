@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Cloudburst's fdroid repository">
     <title>Cloudburst's fdroid repository</title>
     <style>
         * {
@@ -68,6 +69,10 @@
         #items a {
             color: #e0e0e0;
         }
+        .qr {
+            width: 20%;
+            margin: 1rem;
+        }
     </style>
     <script>
         function fallbackCopyTextToClipboard(text) {
@@ -106,11 +111,12 @@
     <main>
         <h1>
             <p class="avatar">
-                <img src="https://github.com/c10udburst.png">
+                <img src="https://github.com/c10udburst.png" alt="GitHub avatar">
                 Cloudburst
             </p>'s fdroid repository.
         </h1>
-        <p>To install paste the url in your fdroid app.</p>
+        <p>To install paste the url in your fdroid app or scan the QR code.</p>
+        <img class="qr" src="/fdroid/repo/index.png" alt="QR code">
         <div>
             <a href="#!" class="button" onclick="copyTextToClipboard('https://c10udburst.github.io/fdroid/repo?fingerprint=0E2D249AB2545EC52DCF67AB43464FB2F7B11EEC71F6D8891108FDD8034A58A5')">Copy url</a>
             <a href="https://github.com/c10udburst/fdroid" class="button">View Source</a>
