@@ -58,7 +58,7 @@ jobs:
     - name: Build fdroid
       run: |
         cd fdroid
-        fdroid update
+        fdroid update -c
         sudo mkdir /fdroid
         sudo chown $USER /fdroid
         fdroid deploy
