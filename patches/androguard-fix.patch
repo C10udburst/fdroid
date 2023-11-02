@@ -1,0 +1,11 @@
+--- /usr/lib/python3/dist-packages/androguard/core/bytecodes/axml/__init__.py
++++ /usr/lib/python3/dist-packages/androguard/core/bytecodes/axml/__init__.py
+@@ -2664,7 +2664,7 @@ class ARSCResStringPoolRef:
+         self.size, = unpack("<H", buff.read(2))
+         self.res0, = unpack("<B", buff.read(1))
+         if self.res0 != 0:
+-            raise ResParserError("res0 must be always zero!")
++            log.warning("res0 must be always zero!")
+         self.data_type = unpack('<B', buff.read(1))[0]
+         # data is interpreted according to data_type
+         self.data = unpack('<I', buff.read(4))[0]
