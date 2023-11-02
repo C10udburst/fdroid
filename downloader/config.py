@@ -21,7 +21,7 @@ class YoutubeRevancedExtended(modules.GithubReleases):
         super().__init__("FiorenMas/Revanced-And-Revanced-Extended-Non-Root")
         
     def filter_asset(self, asset) -> bool:
-        return "revanced-extended" in asset['name']
+        return "revanced-extended" in asset['name'] and 'youtube' in asset['name'] and 'music' not in asset['name'] and '-6-7.apk' not in asset['name']
     
 class Messenger(modules.GithubReleases):
     def __init__(self):
