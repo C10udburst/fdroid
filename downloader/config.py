@@ -18,24 +18,24 @@ class KiwiBrowser(modules.GithubReleases):
 
 class YoutubeRevancedExtended(modules.GithubReleases):
     def __init__(self):
-        super().__init__("NoName-exe/revanced-extended", False, limit=3)
+        super().__init__("FiorenMas/Revanced-And-Revanced-Extended-Non-Root")
         
     def filter_asset(self, asset) -> bool:
-        return asset['name'].startswith('youtube-revanced-extended')
+        return "revanced-extended" in asset['name']
     
 class Messenger(modules.GithubReleases):
     def __init__(self):
-        super().__init__("j-hc/revanced-magisk-module", False, limit=3)
+        super().__init__("FiorenMas/Revanced-And-Revanced-Extended-Non-Root")
         
     def filter_asset(self, asset) -> bool:
-        return asset['name'].startswith('messenger')
+        return "messenger" in asset['name']
     
 class YTRevanced(modules.GithubReleases):
     def __init__(self):
-        super().__init__("j-hc/revanced-magisk-module", False, limit=3)
+        super().__init__("FiorenMas/Revanced-And-Revanced-Extended-Non-Root")
         
     def filter_asset(self, asset) -> bool:
-        return asset['name'].startswith('youtube-revanced')
+        return 'youtube' in asset['name'] and asset['name'].endswith('revanced.apk') and 'music' not in asset['name']
 
 class Spotify(modules.Telegram):
     def __init__(self):
