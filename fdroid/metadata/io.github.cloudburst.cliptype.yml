@@ -1,0 +1,18 @@
+Categories:
+  - USB HID
+  - System
+  - Utilities
+  - Utility
+License:
+AuthorName: Cloudburst
+WebSite: https://github.com/C10udburst/ClipType
+SourceCode: https://github.com/C10udburst/ClipType
+IssueTracker: https://github.com/C10udburst/ClipType/issues
+Changelog: https://github.com/C10udburst/ClipType/releases
+
+Summary: ClipType
+Description: |-
+  Emulate a USB keyboard to paste text from the clipboard from your phone to your computer.
+
+AutoUpdateMode: None
+UpdateCheckMode: None

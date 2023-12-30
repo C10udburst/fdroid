@@ -85,6 +85,20 @@ class LogFox(modules.GithubReleases):
     def filter_asset(self, asset) -> bool:
         return True
 
+class ClipType(modules.GithubReleases):
+    def __init__(self):
+        super().__init__("C10udburst/ClipType")
+        
+    def filter_asset(self, asset) -> bool:
+        return True
+
+class MessengerEx(modules.GithubReleases):
+    def __init__(self):
+        super().__init__("C10udburst/MessengerEx")
+        
+    def filter_asset(self, asset) -> bool:
+        return True
+
 modules = [
     Cloudstream(),
     KiwiBrowser(),
@@ -96,5 +110,7 @@ modules = [
     Logra(),
     Gloom(),
     ExteraGram(),
-    LogFox()
+    LogFox(),
+    ClipType(),
+    MessengerEx()
 ]

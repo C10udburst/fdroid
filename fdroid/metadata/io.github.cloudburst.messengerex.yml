@@ -1,0 +1,18 @@
+Categories:
+  - Xposed
+  - Messaging
+License:
+AuthorName: Cloudburst
+WebSite: https://github.com/C10udburst/MessengerEx
+SourceCode: https://github.com/C10udburst/MessengerEx
+IssueTracker: https://github.com/C10udburst/MessengerEx/issues
+Changelog: https://github.com/C10udburst/MessengerEx/releases
+
+Summary: MessengerEx
+Description: |-
+  An Xposed module that improves the Facebook Messenger experience.
+  - Kill inbox ads
+  - Replace their webbrowser with Chrome Custom Tabs
+
+AutoUpdateMode: None
+UpdateCheckMode: None
