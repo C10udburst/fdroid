@@ -99,6 +99,13 @@ class MessengerEx(modules.GithubReleases):
     def filter_asset(self, asset) -> bool:
         return True
 
+class SwiftBackupPrem(modules.GithubReleases):
+    def __init__(self):
+        super().__init__("Juby210/SwiftBackupPrem")
+        
+    def filter_asset(self, asset) -> bool:
+        return True
+
 modules = [
     Cloudstream(),
     KiwiBrowser(),
@@ -112,5 +119,6 @@ modules = [
     ExteraGram(),
     LogFox(),
     ClipType(),
-    MessengerEx()
+    MessengerEx(),
+    SwiftBackupPrem()
 ]
