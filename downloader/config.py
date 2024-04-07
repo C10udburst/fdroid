@@ -45,17 +45,17 @@ class Spotify(modules.Telegram):
         name = media['document']['attributes'][0]['file_name']
         return name.startswith("Spotify") and "Cloned" not in name and "AB" in name
 
-class Vendetta(modules.MergeSplitModule):
-    def __init__(self):
-        super().__init__("vendetta-arm64")
+# class Vendetta(modules.MergeSplitModule):
+#     def __init__(self):
+#         super().__init__("vendetta-arm64")
 
-    async def find_url(self):
-        async with AsyncClient() as client:
-            r = await client.get("https://discord.k6.tf/index.json")
-            versions = r.json()
-        version = versions['latest']['stable']
-        for name in ["base-360-lspatched", "split_config.arm64_v8a-360-lspatched","split_config.en-360-lspatched","split_config.xxhdpi-360-lspatched"]:
-            yield f"https://discord.k6.tf/{version}/{name}.apk"
+#     async def find_url(self):
+#         async with AsyncClient() as client:
+#             r = await client.get("https://discord.k6.tf/index.json")
+#             versions = r.json()
+#         version = versions['latest']['stable']
+#         for name in ["base-360-lspatched", "split_config.arm64_v8a-360-lspatched","split_config.en-360-lspatched","split_config.xxhdpi-360-lspatched"]:
+#             yield f"https://discord.k6.tf/{version}/{name}.apk"
             
 class Logra(modules.GithubActions):
     def __init__(self):
@@ -113,7 +113,6 @@ modules = [
     YTRevanced(),
     Messenger(),
     Spotify(),
-    Vendetta(),
     Logra(),
     Gloom(),
     ExteraGram(),
