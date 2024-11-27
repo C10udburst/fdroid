@@ -35,6 +35,7 @@ jobs:
     
     - name: Install fdroid
       run: |
+        sudo add-apt-repository -y ppa:fdroid/fdroidserver
         sudo apt update
         sudo apt install -y wget p7zip-full software-properties-common fdroidserver ca-certificates aapt androguard
 
