@@ -44,7 +44,7 @@ jobs:
 
     - name: Patch fdroidserver
       run: |
-        patch -p1 < fdroid-update.py.patch
+        sudo patch -p1 -d/ < fdroid-update.py.patch
 
     - name: Fetch apks
       run: python3 ./downloader/main.py
