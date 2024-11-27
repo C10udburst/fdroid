@@ -9,7 +9,7 @@ class DownloadModule():
     
     @property
     def uniq_prefix(self):
-        return hash(str(self.__class__))
+        return self.__class__.__name__.lower()
     
     async def download(self):
         # download using wget
