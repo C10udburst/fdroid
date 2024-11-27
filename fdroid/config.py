@@ -57,7 +57,7 @@ sdk_path = "$ANDROID_HOME"
 # The same policy is applied to the archive repo, if there is one.
 # repo_maxage = 0
 
-repo_url = "https://c10udburst.github.io/fdroid"
+repo_url = "https://c10udburst.github.io/fdroid/repo"
 repo_name = "C10udburst fdroid repo"
 repo_icon = "fdroid-icon.png"
 repo_description = """
