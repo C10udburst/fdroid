@@ -59,10 +59,14 @@ jobs:
     - name: Build fdroid
       run: |
         cd fdroid
-        fdroid update -c
+        fdroid update \
+          --create-metadata \
+          --use-date-from-apk \
+          --rename-apks \
+          --verbose
         sudo mkdir /fdroid
         sudo chown $USER /fdroid
-        fdroid deploy
+        fdroid deploy --verbose
         rm -rf /fdroid/archive
         cd ..
         mkdir public
