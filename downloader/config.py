@@ -71,6 +71,14 @@ class Gloom(modules.GithubActions):
     def filter_asset(self, path) -> bool:
         return True
 
+        
+class Echo(modules.GithubActions):
+    def __init__(self):
+        super().__init__("echo", "brahmkshatriya/echo", "nightly", "main", "artifact.zip")
+
+    def filter_asset(self, path) -> bool:
+        return True
+
 class ExteraGram(modules.GithubReleases):
     def __init__(self):
         super().__init__("exteraSquad/exteraGram", False)
