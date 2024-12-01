@@ -123,6 +123,7 @@ modules = [
     Spotify(),
     Logra(),
     Gloom(),
+    Echo(),
     ExteraGram(),
     LogFox(),
     ClipType(),
