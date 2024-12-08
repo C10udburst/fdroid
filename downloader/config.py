@@ -66,7 +66,7 @@ class Logra(modules.GithubActions):
 
 class Gloom(modules.GithubActions):
     def __init__(self):
-        super().__init__("gloom", "MateriiApps/Gloom", "android", "main", "artifact.zip")
+        super().__init__("gloom", "MateriiApps/Gloom", "android", "main", "gloom-debug.zip")
 
     def filter_asset(self, path) -> bool:
         return True
