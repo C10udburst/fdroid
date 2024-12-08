@@ -61,7 +61,7 @@ repo_url = "https://c10udburst.github.io/fdroid/repo"
 repo_name = "C10udburst fdroid repo"
 repo_icon = "fdroid-icon.png"
 repo_description = """
-Includes some modded apks.
+A curated collection of applications that I find useful. This repository includes a mix of open-source applications and modified APKs.
 """
 archive_older = 0
 

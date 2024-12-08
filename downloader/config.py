@@ -2,6 +2,13 @@ import modules
 from httpx import AsyncClient
 
 
+class PreviousFdroid(modules.Fdroid):
+    def __init__(self):
+        super().__init__("https://c10udburst.github.io/fdroid")
+
+    def filter_asset(self, asset) -> bool:
+        return True
+
 class Cloudstream(modules.GithubReleases):
     def __init__(self):
         super().__init__("recloudstream/cloudstream", True, limit=2)
@@ -115,6 +122,7 @@ class SwiftBackupPrem(modules.GithubReleases):
         return True
 
 modules = [
+    PreviousFdroid(),
     Cloudstream(),
     KiwiBrowser(),
     YoutubeRevancedExtended(),
