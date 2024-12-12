@@ -63,7 +63,7 @@ repo_icon = "fdroid-icon.png"
 repo_description = """
 A curated collection of applications that I find useful. This repository includes a mix of open-source applications and modified APKs.
 """
-archive_older = 0
+archive_older = 3
 
 # As above, but for the archive repo.
 # archive_older sets the number of versions kept in the main repo, with all
