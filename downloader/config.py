@@ -121,6 +121,13 @@ class SwiftBackupPrem(modules.GithubReleases):
     def filter_asset(self, asset) -> bool:
         return True
 
+class RecentsGrid(modules.GithubReleases):
+    def __init__(self):
+        super().__init__("Juby210/RecentsGrid")
+        
+    def filter_asset(self, asset) -> bool:
+        return True
+
 modules = [
     PreviousFdroid(),
     Cloudstream(),
@@ -136,5 +143,6 @@ modules = [
     LogFox(),
     ClipType(),
     MessengerEx(),
-    SwiftBackupPrem()
+    SwiftBackupPrem(),
+    RecentsGrid()
 ]

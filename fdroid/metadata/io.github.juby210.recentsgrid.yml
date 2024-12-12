@@ -1,0 +1,16 @@
+Categories:
+  - Xposed
+License: MIT
+AuthorName: Juby210
+WebSite: https://github.com/Juby210/RecentsGrid
+SourceCode: https://github.com/Juby210/RecentsGrid
+IssueTracker: https://github.com/Juby210/RecentsGrid/issues
+Changelog: https://github.com/Juby210/RecentsGrid/releases
+
+Summary: Xposed module for enabling grid view in quickstep's recents.
+Description: |-
+Xposed module for enabling grid view in quickstep's recents - show recents as grid instead of default one task view.
+Tested on Android 13-15 Beta 4.
+
+AutoUpdateMode: None
+UpdateCheckMode: None
