@@ -1,6 +1,7 @@
 from .classes import DownloadModule
 from httpx import AsyncClient
 from collections.abc import Iterator
+from datetime import datetime
 
 
 class GithubReleases(DownloadModule):
@@ -13,7 +14,7 @@ class GithubReleases(DownloadModule):
     def filter_asset(self, asset) -> bool:
         raise NotImplementedError()
     
-    async def find_url(self) -> Iterator[str]:
+    async def find_url(self):
         # use github api to find the latest apk dl
         async with AsyncClient() as client:
             r = await client.get(f"https://api.github.com/repos/{self.repository}/releases?per_page={self.limit}")
@@ -29,4 +30,5 @@ class GithubReleases(DownloadModule):
                     continue
                 # check if it matches the filter
                 if self.filter_asset(asset):
-                    yield asset["browser_download_url"]
+                    date = asset["updated_at"]
+                    yield (asset["browser_download_url"], datetime.fromisoformat(date))

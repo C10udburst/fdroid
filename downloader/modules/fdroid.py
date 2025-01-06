@@ -1,6 +1,7 @@
 import httpx
 import asyncio
 from .classes import DownloadModule
+from datetime import datetime
 
 import xml.etree.ElementTree as ET
 
@@ -20,4 +21,6 @@ class Fdroid(DownloadModule):
         for application in root.findall(".//application"):
             for package in application.findall(".//package"):
                 apkname = package.find("apkname").text
-                yield f"{self.base_url}/repo/{apkname}"
+                added = package.find("added").text
+                url = f"{self.base_url}/repo/{apkname}"
+                yield (url, datetime.fromisoformat(added))
