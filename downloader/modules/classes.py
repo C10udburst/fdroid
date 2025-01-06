@@ -3,7 +3,6 @@ from collections.abc import Iterator
 import os
 from datetime import datetime
 from typing import Union, Tuple
-from pathlib import Path
 
 class DownloadModule():
     
@@ -33,10 +32,7 @@ class DownloadModule():
             process = await asyncio.create_subprocess_exec("wget", "-nv", url, "-O", f"fdroid/repo/{self.uniq_prefix}-{name}")
             await process.wait()
             if last_updated:
-                p = Path(f"fdroid/repo/{self.uniq_prefix}-{name}")
-                p.touch()
-                p.stat().st_ctime = last_updated.timestamp()
-                p.stat().st_mtime = last_updated.timestamp()
+                os.utime(f"fdroid/repo/{self.uniq_prefix}-{name}", (last_updated.timestamp(), last_updated.timestamp()))
 
 class MergeSplitModule(DownloadModule):
 
