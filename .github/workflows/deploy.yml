@@ -37,7 +37,7 @@ jobs:
 
     - name: Force latest androguard
       run: |
-        sudo python3 -m pip install --break-system-packages androguard
+        sudo python3 -m pip install --break-system-packages 'androguard>=4.0.0'
 
     - name: Setup downloader deps
       run: |
