@@ -1,6 +1,6 @@
 from .classes import DownloadModule
 import asyncio
-from collections.abc import Optional, Tuple
+from typing import Optional, Tuple
 from httpx import AsyncClient
 from glob import glob
 from datetime import datetime
