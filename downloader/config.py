@@ -66,14 +66,14 @@ class Spotify(modules.Telegram):
             
 class Logra(modules.GithubActions):
     def __init__(self):
-        super().__init__("logra", "wingio/Logra", "build-debug", "main", "app-debug.zip")
+        super().__init__("logra", "wingio/Logra", "build-debug", "main", "app-debug")
 
     def filter_asset(self, path) -> bool:
         return True
 
 class Gloom(modules.GithubActions):
     def __init__(self):
-        super().__init__("gloom", "MateriiApps/Gloom", "android", "main", "gloom-debug.zip")
+        super().__init__("gloom", "MateriiApps/Gloom", "android", "main", "gloom-debug")
 
     def filter_asset(self, path) -> bool:
         return True
@@ -81,7 +81,7 @@ class Gloom(modules.GithubActions):
         
 class Echo(modules.GithubActions):
     def __init__(self):
-        super().__init__("echo", "brahmkshatriya/echo", "nightly", "main", "artifact.zip")
+        super().__init__("echo", "brahmkshatriya/echo", "nightly", "main", "artifact")
 
     def filter_asset(self, path) -> bool:
         return True
