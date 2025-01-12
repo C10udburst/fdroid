@@ -47,9 +47,9 @@ class GithubActions(DownloadModule):
         url, date = url_date
         print(f"Downloading {self.artifact} from {url}")
         os.mkdir(self.name)
-        process = await asyncio.create_subprocess_exec("wget", "-nv", url, "-O", f"{self.name}/{self.artifact}")
+        process = await asyncio.create_subprocess_exec("wget", "-nv", url, "-O", f"{self.name}/{self.artifact}.zip")
         await process.wait()
-        process = await asyncio.create_subprocess_exec("7z", "x", f"{self.name}/{self.artifact}", f"-O{self.name}")
+        process = await asyncio.create_subprocess_exec("7z", "x", f"{self.name}/{self.artifact}.zip", f"-O{self.name}")
         await process.wait()
         for file in glob(f"{self.name}/**.apk"):
             if not self.filter_asset(file):

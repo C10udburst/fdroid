@@ -66,14 +66,14 @@ class Spotify(modules.Telegram):
             
 class Logra(modules.GithubActions):
     def __init__(self):
-        super().__init__("logra", "wingio/Logra", "build-debug", "main", "app-debug")
+        super().__init__("logra", "wingio/Logra", "Build Debug", "main", "app-debug")
 
     def filter_asset(self, path) -> bool:
         return True
 
 class Gloom(modules.GithubActions):
     def __init__(self):
-        super().__init__("gloom", "MateriiApps/Gloom", "android", "main", "gloom-debug")
+        super().__init__("gloom", "MateriiApps/Gloom", "Build debug APK", "main", "gloom-debug")
 
     def filter_asset(self, path) -> bool:
         return True
