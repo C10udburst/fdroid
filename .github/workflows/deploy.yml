@@ -35,6 +35,10 @@ jobs:
         sudo apt update
         sudo apt install -y wget p7zip-full software-properties-common fdroidserver python3 python3-pip ca-certificates aapt androguard
 
+    - name: Force latest androguard
+      run: |
+        sudo python3 -m pip install --break-system-packages androguard
+
     - name: Setup downloader deps
       run: |
         mkdir -p fdroid/repo
