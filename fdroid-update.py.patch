@@ -2,12 +2,16 @@ diff --git a/usr/lib/python3/dist-packages/fdroidserver/update.py b/usr/lib/pyth
 index f7c2252..7d44374 100644
 --- a/usr/lib/python3/dist-packages/fdroidserver/update.py
 +++ b/usr/lib/python3/dist-packages/fdroidserver/update.py
-@@ -1912,7 +1912,7 @@ def process_apk(apkcache, apkfilename, repodir, knownapks, use_date_from_apk=Fal
+@@ -1912,9 +1912,9 @@ def process_apk(apkcache, apkfilename, repodir, knownapks, use_date_from_apk=Fal
  
          try:
              apk = scan_apk(apkfile)
 -        except BuildException:
-+        except Exception:
-             logging.warning(_("Skipping '{apkfilename}' with invalid signature!")
-                             .format(apkfilename=apkfilename))
+-            logging.warning(_("Skipping '{apkfilename}' with invalid signature!")
+-                            .format(apkfilename=apkfilename))
++        except Exception as e:
++            logging.warning(_("Skipping '{apkfilename}' because of error: {error}")
++                            .format(apkfilename=apkfilename, error=str(e)))
              return True, None, False
+ 
+         if apps:
