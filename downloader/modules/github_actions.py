@@ -34,7 +34,7 @@ class GithubActions(DownloadModule):
             for run in r.json()['workflow_runs']:
                 if run['status'] == 'completed' and run['conclusion'] == 'success' and run['head_branch'] == self.branch:
                     date = datetime.fromisoformat(run['created_at'])
-                    return f"https://nightly.link/{self.repository}/actions/runs/{run['id']}/${self.artifact}.zip", date
+                    return f"https://nightly.link/{self.repository}/actions/runs/{run['id']}/{self.artifact}.zip", date
         
     async def download(self):
         url_date = await self.find_url()
