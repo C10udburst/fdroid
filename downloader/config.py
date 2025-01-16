@@ -91,7 +91,7 @@ class ExteraGram(modules.GithubReleases):
         super().__init__("exteraSquad/exteraGram", False)
         
     def filter_asset(self, asset) -> bool:
-        return "arm64" in asset['name']
+        return True
     
 class LogFox(modules.GithubReleases):
     def __init__(self):
