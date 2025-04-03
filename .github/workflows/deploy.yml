@@ -67,8 +67,8 @@ jobs:
       run: |
         cd fdroid
         echo "" >> config.py
-        echo "keystorepass: ${KEYSTOREPASS}" >> config.py
-        echo "keypass: ${KEYSTOREPASS}" >> config.py
+        echo "keystorepass: ${KEYSTOREPASS}" >> config.yml
+        echo "keypass: ${KEYSTOREPASS}" >> config.yml
         fdroid update \
           --create-metadata \
           --use-date-from-apk \
