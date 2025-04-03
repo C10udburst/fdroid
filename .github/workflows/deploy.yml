@@ -27,7 +27,7 @@ jobs:
     - name: Setup keystore
       run: |
         echo "${{ secrets.KEYSTORE }}" | base64 -d > fdroid/keystore.jks
-        chmod 600 fdroid/config.py fdroid/keystore.jks
+        chmod 600 fdroid/config.yml fdroid/keystore.jks
     
     - name: Install fdroid
       run: |
@@ -50,7 +50,7 @@ jobs:
     - name: Patch fdroidserver
       run: |
         sudo patch -p1 -d/ < fdroid-update.py.patch
-        ANDRO_PATH=$(python3 -c 'print(__import__("androguard").__file__.replace("__init__.py", ""))')
+        ANDRO_PATH=$(python3 -c 'print(__import__("androguard").__file__.replace("/__init__.py", ""))')
         ln -s $ANDRO_PATH/core/bytecode.py $ANDRO_PATH/core/bytecodes.py
 
     - name: Fetch apks
