@@ -34,6 +34,13 @@ archive_description: >
 # The ID of a GPG key for making detached signatures for APKs.
 # gpgkey: 1DBA2E89
 
+scanner_signature_sources:
+  - 'exodus' # official exodus-privacy.org signatures
+  - 'etip' # exodus privacy investigation platfrom community contributed
+  - 'suss' # official F-Droid: Suspicious or Unwanted Software Signatures
+
+refresh_scanner: true
+
 serverwebroot:
   - url: "/fdroid"
 
