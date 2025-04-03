@@ -1,0 +1,42 @@
+repo_url: https://c10udburst.github.io/fdroid/repo
+repo_name: C10udburst fdroid repo
+repo_icon: fdroid-icon.png
+repo_description: >
+  A curated collection of applications that I find useful.
+  This repository includes a mix of open-source applications and modified APKs.
+
+# Number of versions kept in the main repo; older ones go to the archive.
+# Set to 0 to disable the archive.
+archive_older: 3
+
+# Archive repository settings
+archive_url: https://f-droid.org/archive
+archive_name: My First F-Droid Archive Demo
+archive_icon: fdroid-icon.png
+archive_description: >
+  The repository of older versions of applications from the main demo repository.
+
+# Allow APKs with disabled algorithms (e.g., MD5 signatures) to be included in the 'repo' section.
+# allow_disabled_algorithms: true
+
+# Create per-app repositories
+# per_app_repos: true
+
+# Create a link to the current version of a given app.
+# make_current_version_link: false
+
+# Field from the metadata to use for the "current version" link
+# current_version_name_source: packageName
+
+# Override home directory for GPG
+# gpghome: /home/fdroid/somewhere/else/.gnupg
+
+# The ID of a GPG key for making detached signatures for APKs.
+# gpgkey: 1DBA2E89
+
+serverwebroot:
+  - url: "/fdroid"
+
+repo_keyalias: repokey
+keystore: keystore.jks
+keydname: CN=localhost, OU=F-Droid

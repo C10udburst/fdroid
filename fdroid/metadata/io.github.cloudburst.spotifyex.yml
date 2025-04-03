@@ -1,0 +1,19 @@
+Categories:
+  - Xposed
+  - Audio
+License: MIT
+AuthorName: Cloudburst
+WebSite: https://github.com/C10udburst/SpotifyEx
+SourceCode: https://github.com/C10udburst/SpotifyEx
+IssueTracker: https://github.com/C10udburst/SpotifyEx/issues
+Changelog: https://github.com/C10udburst/SpotifyEx/releases
+
+Summary: SpotifyEx
+Description: |-
+  An Xposed module that improves the Spotify experience.
+  Features:
+  - Kill ads
+  - Unlock client-side premium features
+  - Remove tracking from shared urls
+AutoUpdateMode: None
+UpdateCheckMode: None

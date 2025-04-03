@@ -44,13 +44,13 @@ class YTRevanced(modules.GithubReleases):
     def filter_asset(self, asset) -> bool:
         return asset['name'].startswith('youtube-revanced')
 
-class Spotify(modules.Telegram):
-    def __init__(self):
-        super().__init__("xManagerSupport")
+# class Spotify(modules.Telegram):
+#     def __init__(self):
+#         super().__init__("xManagerSupport")
 
-    def filter_media(self, media) -> bool:
-        name = media['document']['attributes'][0]['file_name']
-        return name.startswith("Spotify") and "Cloned" not in name and "AB" in name
+#     def filter_media(self, media) -> bool:
+#         name = media['document']['attributes'][0]['file_name']
+#         return name.startswith("Spotify") and "Cloned" not in name and "AB" in name
 
 # class Vendetta(modules.MergeSplitModule):
 #     def __init__(self):
@@ -106,6 +106,13 @@ class ClipType(modules.GithubReleases):
         
     def filter_asset(self, asset) -> bool:
         return True
+    
+class SpotifyEx(modules.GithubReleases):
+    def __init__(self):
+        super().__init__("C10udburst/SpotifyEx")
+        
+    def filter_asset(self, asset) -> bool:
+        return True
 
 class MessengerEx(modules.GithubReleases):
     def __init__(self):
@@ -135,13 +142,14 @@ modules = [
     YoutubeRevancedExtended(),
     YTRevanced(),
     Messenger(),
-    Spotify(),
+    #Spotify(),
     Logra(),
     Gloom(),
     Echo(),
     ExteraGram(),
     LogFox(),
     ClipType(),
+    SpotifyEx(),
     MessengerEx(),
     SwiftBackupPrem(),
     RecentsGrid()
