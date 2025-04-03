@@ -51,7 +51,7 @@ jobs:
       run: |
         sudo patch -p1 -d/ < fdroid-update.py.patch
         ANDRO_PATH=$(python3 -c 'print(__import__("androguard").__file__.replace("/__init__.py", ""))')
-        ln -s $ANDRO_PATH/core/bytecode.py $ANDRO_PATH/core/bytecodes.py
+        sudo ln -s $ANDRO_PATH/core/bytecode.py $ANDRO_PATH/core/bytecodes.py
 
     - name: Fetch apks
       run: python3 ./downloader/main.py
