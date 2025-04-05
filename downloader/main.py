@@ -1,5 +1,6 @@
 from config import modules
 import asyncio
+from cleaner import remove_duplicate_apks
 
 async def run():
     tasks = []
@@ -12,3 +13,5 @@ if __name__ == "__main__":
     for result in results:
         if isinstance(result, Exception):
             print(result)
+
+    remove_duplicate_apks("fdroid/repo/")
