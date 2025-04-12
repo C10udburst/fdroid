@@ -1,0 +1,21 @@
+Categories:
+  - Xposed
+  - Health
+  - Sleep
+License: MIT
+AuthorName: Cloudburst
+WebSite: https://github.com/C10udburst/SleepAsAndroidEx
+SourceCode: https://github.com/C10udburst/SleepAsAndroidEx
+IssueTracker: https://github.com/C10udburst/SleepAsAndroidEx/issues
+Changelog: https://github.com/C10udburst/SleepAsAndroidEx/releases
+
+Summary: SleepAsAndroidEx
+Description: |-
+  An Xposed module for Sleep As Android.
+  Features:
+  - Enable Pro
+  - Disable analytics
+  - Disable ads
+  - Disable ads/analytics/play rating prompts
+AutoUpdateMode: None
+UpdateCheckMode: None

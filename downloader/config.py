@@ -135,6 +135,28 @@ class RecentsGrid(modules.GithubReleases):
     def filter_asset(self, asset) -> bool:
         return True
 
+class GrindrPlus(modules.GithubReleases):
+    def __init__(self):
+        super().__init__("R0rt1z2/GrindrPlus")
+        
+    def filter_asset(self, asset) -> bool:
+        return True
+    
+
+class SleepAsAndroidEx(modules.GithubReleases):
+    def __init__(self):
+        super().__init__("C10udburst/SleepAsAndroidEx")
+        
+    def filter_asset(self, asset) -> bool:
+        return True
+    
+class SmartLauncherEx(modules.GithubReleases):
+    def __init__(self):
+        super().__init__("C10udburst/SmartLauncherEx")
+        
+    def filter_asset(self, asset) -> bool:
+        return True
+
 modules = [
     PreviousFdroid(),
     Cloudstream(),
@@ -152,5 +174,8 @@ modules = [
     SpotifyEx(),
     MessengerEx(),
     SwiftBackupPrem(),
-    RecentsGrid()
+    RecentsGrid(),
+    GrindrPlus(),
+    SleepAsAndroidEx(),
+    SmartLauncherEx()
 ]

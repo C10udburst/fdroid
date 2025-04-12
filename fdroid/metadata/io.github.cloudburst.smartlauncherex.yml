@@ -1,0 +1,15 @@
+Categories:
+  - Xposed
+  - Launcher
+License: MIT
+AuthorName: Cloudburst
+WebSite: https://github.com/C10udburst/SmartLauncherEx
+SourceCode: https://github.com/C10udburst/SmartLauncherEx
+IssueTracker: https://github.com/C10udburst/SmartLauncherEx/issues
+Changelog: https://github.com/C10udburst/SmartLauncherEx/releases
+
+Summary: SmartLauncherEx
+Description: |-
+  An Xposed module for Smart Launcher 6 that allows you to enable the Pro features.
+AutoUpdateMode: None
+UpdateCheckMode: None
