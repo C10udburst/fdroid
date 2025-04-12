@@ -156,6 +156,13 @@ class SmartLauncherEx(modules.GithubReleases):
         
     def filter_asset(self, asset) -> bool:
         return True
+    
+class Shiru(modules.GithubReleases):
+    def __init__(self):
+        super().__init__("RockinChaos/Shiru")
+        
+    def filter_asset(self, asset) -> bool:
+        return asset['name'].endswith("universal.apk")
 
 modules = [
     PreviousFdroid(),
@@ -177,5 +184,6 @@ modules = [
     RecentsGrid(),
     GrindrPlus(),
     SleepAsAndroidEx(),
-    SmartLauncherEx()
+    SmartLauncherEx(),
+    Shiru(),
 ]
