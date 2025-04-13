@@ -52,6 +52,13 @@ class YTRevanced(modules.GithubReleases):
 #         name = media['document']['attributes'][0]['file_name']
 #         return name.startswith("Spotify") and "Cloned" not in name and "AB" in name
 
+class WaEnhancer(modules.GithubReleases):
+    def __init__(self):
+        super().__init__("Dev4Mod/WaEnhancer")
+        
+    def filter_asset(self, asset) -> bool:
+        return True
+
 # class Vendetta(modules.MergeSplitModule):
 #     def __init__(self):
 #         super().__init__("vendetta-arm64")
@@ -186,4 +193,5 @@ modules = [
     SleepAsAndroidEx(),
     SmartLauncherEx(),
     Shiru(),
+    WaEnhancer(),
 ]

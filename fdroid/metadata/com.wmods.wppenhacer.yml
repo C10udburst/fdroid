@@ -1,0 +1,18 @@
+Categories:
+  - Xposed
+  - Messaging
+License: GPL-3.0
+AuthorName: Dev4Mod
+WebSite: https://github.com/Dev4Mod/WaEnhancer
+SourceCode: https://github.com/Dev4Mod/WaEnhancer
+IssueTracker: https://github.com/Dev4Mod/WaEnhancer/issues
+Changelog: https://github.com/Dev4Mod/WaEnhancer/releases
+
+Summary: WaEnhancer is an Xposed module that enhances your WhatsApp experience.
+Description: |-
+  WaEnhancer is an Xposed module that enhances your WhatsApp experience.
+  Warning: This module is intended for educational purposes only, you may have problems with your WhatsApp account, risk of banning! Use it at your own risk.
+  Please note that this project is currently in development, so bugs and crashes may occur. If you encounter any issues report them in our group or create an [issues](https://github.com/Dev4Mod/WaEnhancer/issues) here.
+
+AutoUpdateMode: None
+UpdateCheckMode: None
