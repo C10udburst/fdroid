@@ -258,10 +258,7 @@ if __name__ == "__main__":
         sys.exit(1)
         
     apk_path = sys.argv[1]
-    output_path = sys.argv[2]
-    if not output_path.endswith(".png"):
-        output_path += ".png"
-    
+    output_path = sys.argv[2]   
     run_apktool(apk_path)
     app_name = get_package_name()
     output_path = os.path.join(output_path, f"{app_name}.png")
