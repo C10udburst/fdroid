@@ -7,7 +7,7 @@ repo_description: >
 
 # Number of versions kept in the main repo; older ones go to the archive.
 # Set to 0 to disable the archive.
-archive_older: 3
+archive_older: 2
 
 # Archive repository settings
 archive_url: https://f-droid.org/archive

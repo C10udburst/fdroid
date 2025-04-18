@@ -86,6 +86,8 @@ def find_icon_path(icon_name):
         return path
     if path := find_with_extension(found, ".webp"):
         return path
+    if path := find_with_extension(found, ".jpg"):
+        return path
     if path := find_with_extension(found, ".xml"):
         return path
     
@@ -95,60 +97,73 @@ def find_icon_path(icon_name):
     return None
 
 
+def remap_tree(tree, map, tag_name):
+    attribs = {}
+    for elem in tree.iter():
+        for attr in list(elem.attrib.keys()):
+            if attr in map:
+                val = elem.attrib[attr]
+                if val.startswith("@android:color/"):
+                    val = val.replace("@android:color/", "")
+                if val.startswith("@color/"):
+                    val = find_icon_path(val)
+                if val.startswith("#") and len(val) == 9:
+                    val = "#" + val[3:]
+                if val.endswith("dp"):
+                    val = val.replace("dp", "")
+                if val.endswith("dip"):
+                    val = val.replace("dip", "")
+                attribs[map[attr]] = val
+    return ET.Element(tag_name, attribs)
+
 def android_to_svg(android_element):
     if android_element.tag == 'path':
-        path_data = android_element.get('{http://schemas.android.com/apk/res/android}pathData')
-        path_fill = android_element.get('{http://schemas.android.com/apk/res/android}fillColor')
-        if path_data is None:
-            return None
-        if path_fill is None:
-            path_fill = "#000000"
-        if path_fill.startswith("@android:color/"):
-            path_fill = path_fill.replace("@android:color/", "")
-        if path_fill.startswith("@color/"):
-            path_fill = find_icon_path(path_fill)
-        if path_fill.startswith("#") and len(path_fill) == 9:
-            path_fill = "#" + path_fill[3:]
-            
-        svg_path = ET.Element('path', {
-            'd': path_data,
-            'fill': path_fill
-        })
-        svg_path.text = ""
+        map = {
+            '{http://schemas.android.com/apk/res/android}pathData': 'd',
+            '{http://schemas.android.com/apk/res/android}fillColor': 'fill',
+            '{http://schemas.android.com/apk/res/android}strokeColor': 'stroke',
+            '{http://schemas.android.com/apk/res/android}strokeWidth': 'stroke-width',
+        }
+        svg_path = remap_tree(android_element, map, 'path')
         return svg_path
-    elif android_element.tag == 'clip-path':
-        clip_path_id = android_element.get('{http://schemas.android.com/apk/res/android}name')
-        
-        clip_path = ET.Element('clipPath', {'id': clip_path_id})
-        for subchild in android_element:
-            obj = android_to_svg(subchild)
-            if obj is not None:
-                clip_path.append(obj)
-        clip_path.text = ""
-        return clip_path
     elif android_element.tag == 'group':
-        group_id = android_element.get('{http://schemas.android.com/apk/res/android}name')
-        group = ET.Element('g', {'id': group_id})
-        group.text = ""
+        map = {
+            '{http://schemas.android.com/apk/res/android}name': 'id',
+        }
+        group = remap_tree(android_element, map, 'g')
+        
+        translateX = android_element.get('{http://schemas.android.com/apk/res/android}translateX')
+        translateY = android_element.get('{http://schemas.android.com/apk/res/android}translateY')
+        scaleX = android_element.get('{http://schemas.android.com/apk/res/android}scaleX')
+        scaleY = android_element.get('{http://schemas.android.com/apk/res/android}scaleY')
+        
+        transform = ""
+        if translateX is not None and translateY is not None:
+            transform += f"translate({translateX}, {translateY}) "
+        if scaleX is not None and scaleY is not None:
+            transform += f"scale({scaleX}, {scaleY}) "
+        if transform:
+            transform = transform.strip()
+            android_element.set('transform', transform)
         for subchild in android_element:
             obj = android_to_svg(subchild)
             if obj is not None:
                 group.append(obj)
         return group
     elif android_element.tag == 'vector':
-        vector_width = android_element.get('{http://schemas.android.com/apk/res/android}width').replace("dp", "")
-        vector_height = android_element.get('{http://schemas.android.com/apk/res/android}height').replace("dp", "")
+        map = {
+            '{http://schemas.android.com/apk/res/android}width': 'width',
+            '{http://schemas.android.com/apk/res/android}height': 'height',
+            '{http://schemas.android.com/apk/res/android}tint': 'fill',
+        }
+        
+        svg_vector = remap_tree(android_element, map, 'svg')
+        svg_vector.set('xmlns', 'http://www.w3.org/2000/svg')
+        
         vector_viewport_width = android_element.get('{http://schemas.android.com/apk/res/android}viewportWidth').replace("dp", "")
         vector_viewport_height = android_element.get('{http://schemas.android.com/apk/res/android}viewportHeight').replace("dp", "")
-        
-        svg_vector = ET.Element('svg', {
-            'xmlns': 'http://www.w3.org/2000/svg',
-            'width': vector_width,
-            'height': vector_height,
-            'viewBox': f"0 0 {vector_viewport_width} {vector_viewport_height}"
-        })
-        
-        svg_vector.text = ""
+        viewBox = f"0 0 {vector_viewport_width} {vector_viewport_height}"
+        svg_vector.set('viewBox', viewBox)
         
         for subchild in android_element:
             obj = android_to_svg(subchild)
@@ -167,22 +182,22 @@ def fix_nones(tree):
                 del elem.attrib[attr]
     return tree
 
-def join_android_vectors(vec1_root, vec2_root):
-    vec_root = ET.Element('vector', {
-        'xmlns:android': 'http://schemas.android.com/apk/res/android',
-        '{http://schemas.android.com/apk/res/android}width': vec1_root.get('{http://schemas.android.com/apk/res/android}width'),
-        '{http://schemas.android.com/apk/res/android}height': vec1_root.get('{http://schemas.android.com/apk/res/android}height'),
-        '{http://schemas.android.com/apk/res/android}viewportWidth': vec1_root.get('{http://schemas.android.com/apk/res/android}viewportWidth'),
-        '{http://schemas.android.com/apk/res/android}viewportHeight': vec1_root.get('{http://schemas.android.com/apk/res/android}viewportHeight')
+def add_background_color(tree, color):
+    w = tree.get('{http://schemas.android.com/apk/res/android}viewportWidth').replace("dp", "")
+    h = tree.get('{http://schemas.android.com/apk/res/android}viewportWidth').replace("dp", "")
+    
+    rect = ET.Element('path', {
+        '{http://schemas.android.com/apk/res/android}pathData': f'M0,0h{w}v{h}H0z',
+        '{http://schemas.android.com/apk/res/android}fillColor': color,
     })
     
-    for child in vec1_root:
-        vec_root.append(child)
-        
-    for child in vec2_root:
-        vec_root.append(child)
-        
-    return vec_root
+    tree.insert(0, rect)
+    return tree
+
+def add_background_tree(tree, background_tree):
+    for elem in background_tree[::-1]:
+        tree.insert(0, elem) 
+    return tree
     
     
 
@@ -194,7 +209,7 @@ def convert_to_png(icon_path, output_path):
         shutil.copy(icon_path, output_path)
         return
     
-    if icon_path.endswith(".webp"):
+    if icon_path.endswith(".webp") or icon_path.endswith(".jpg"):
         res = os.system(f"{CONVERT_PATH} {icon_path} {output_path}")
         if res != 0:
             raise Exception(f"convert failed with error code {res}")
@@ -210,29 +225,19 @@ def convert_to_png(icon_path, output_path):
             background_path = background.get('{http://schemas.android.com/apk/res/android}drawable')
             foreground_path = find_icon_path(foreground_path)
             background_path = find_icon_path(background_path)
-            if foreground_path is None or background_path is None:
-                raise Exception("Foreground or background path not found")
-            if background_path.startswith("#"):
-                background_elem = ET.Element('path', {
-                    '{http://schemas.android.com/apk/res/android}pathData': 'M0,0h24v24H0z',
-                    '{http://schemas.android.com/apk/res/android}fillColor': background_path
-                })
-                background_root = ET.Element('vector', {
-                    'xmlns:android': 'http://schemas.android.com/apk/res/android',
-                    '{http://schemas.android.com/apk/res/android}width': '24dp',
-                    '{http://schemas.android.com/apk/res/android}height': '24dp',
-                    '{http://schemas.android.com/apk/res/android}viewportWidth': '24',
-                    '{http://schemas.android.com/apk/res/android}viewportHeight': '24'
-                })
-                background_root.append(background_elem)
-            else:
-                background_tree = ET.parse(background_path)
-                background_root = background_tree.getroot()
             
             foreground_tree = ET.parse(foreground_path)
             foreground_root = foreground_tree.getroot()
             
-            vector_xml = join_android_vectors(background_root, foreground_root)
+            if foreground_path is None or background_path is None:
+                raise Exception("Foreground or background path not found")
+            if background_path.startswith("#"):
+                foreground_root = add_background_color(foreground_root, background_path)
+            else:
+                background_tree = ET.parse(background_path)
+                background_root = background_tree.getroot()
+                foreground_root = add_background_tree(foreground_root, background_tree)
+            vector_xml = foreground_root
         elif root.tag == 'vector':
             vector_xml = root
         else:
@@ -248,7 +253,7 @@ def convert_to_png(icon_path, output_path):
         res = os.system(f"{CONVERT_PATH} {svg_path} {output_path}")
         if res != 0:
             raise Exception(f"convert failed with error code {res}")
-        os.remove(svg_path)
+        #os.remove(svg_path)
         return
     raise Exception("Unknown icon format")
 

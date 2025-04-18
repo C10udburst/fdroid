@@ -164,6 +164,13 @@ class SmartLauncherEx(modules.GithubReleases):
     def filter_asset(self, asset) -> bool:
         return True
     
+class Grayscaler(modules.GithubReleases):
+    def __init__(self):
+        super().__init__("C10udburst/Grayscaler")
+        
+    def filter_asset(self, asset) -> bool:
+        return True
+    
 class Shiru(modules.GithubReleases):
     def __init__(self):
         super().__init__("RockinChaos/Shiru")
@@ -192,6 +199,7 @@ modules = [
     GrindrPlus(),
     SleepAsAndroidEx(),
     SmartLauncherEx(),
-    Shiru(),
+    Grayscaler(),
+    #Shiru(),
     WaEnhancer(),
 ]

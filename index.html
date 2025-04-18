@@ -125,48 +125,60 @@
         </div>
     </main>
     <script>
-        fetch(window.location.origin+"/fdroid/repo/index.xml")
-            .then(r=>r.text())
-            .then(str=> new window.DOMParser().parseFromString(str, "text/xml"))
+        function t(obj) {
+            if (typeof obj === "string") return obj;
+            if (typeof obj === "object") {
+                return obj['en-US'] || Object.values(obj)[0]
+            }
+            return obj;
+        }
+
+        fetch(window.location.origin+"/fdroid/repo/index-v2.json")
+            .then(r=>r.json())
             .then(data=> {
                 const container = document.querySelector("#items")
-                data.querySelectorAll("application")
-                    .forEach(app => {
-                        const name = app.querySelector("name")?.textContent;
-                        const summary = app.querySelector("summary")?.textContent;
-                        const url = app.querySelector("source")?.textContent || app.querySelector("web")?.textContent || "#!";
-                        let icon = app.querySelector("icon")?.textContent;
-                        if (icon) {
-                            icon = window.location.href + "/repo/icons/" + icon;
-                        }
+                container.innerHTML = ""
+                for (let [package, app] of Object.entries(data.packages)) {
+                    const name = t(app.metadata.name);
+                    const summary = t(app.summary) + "\n" + app.metadata.categories.join(", ");
+                    const url = app.metadata.sourceCode || app.metadata.webSite || "#!";
+                    let icon = t(app.metadata.icon);
+                    if (icon) {
+                        icon = window.location.origin + "/fdroid/repo/" + icon.name;
+                    }
 
-                        let extra = [];
-                        extra.push(app.querySelector("package version")?.textContent);
-                        extra.push(app.querySelector("package nativecode")?.textContent);
+                    let extra = [];
+                    if (Object.values(app.versions).length > 1) {
+                        let version = Object.values(app.versions)[0];
+                        if (version.manifest.versionCode)
+                            extra.push(version.manifest.versionName);
+                        if (version.manifest.nativeCode)
+                            extra.push(version[0].manifest.nativeCode.join(", "));
+                    };
 
-                        const card = document.createElement("div");
+                    const card = document.createElement("div");
 
-                        const urlElem = document.createElement("a");
-                        urlElem.href = url
-                        urlElem.target = "_blank";
-                        urlElem.rel = "noopener noreferrer";
-                        urlElem.style = "display: flex; align-items: center; gap: 1em;"
-                        urlElem.innerHTML = `<h3>${name}</h3>`
-                        if (icon) {
-                            urlElem.innerHTML = `<img src="${icon}" alt="${name} icon">` + urlElem.innerHTML;
-                        }
-                        card.appendChild(urlElem);
+                    const urlElem = document.createElement("a");
+                    urlElem.href = url
+                    urlElem.target = "_blank";
+                    urlElem.rel = "noopener noreferrer";
+                    urlElem.style = "display: flex; align-items: center; gap: 1em;"
+                    urlElem.innerHTML = `<h3>${name}</h3>`
+                    if (icon) {
+                        urlElem.innerHTML = `<img src="${icon}" alt="${name} icon" style="width: 2em; height: 2em;">` + urlElem.innerHTML;
+                    }
+                    card.appendChild(urlElem);
 
-                        const summaryElem = document.createElement("p");
-                        summaryElem.innerText = summary;
-                        card.appendChild(summaryElem);
+                    const summaryElem = document.createElement("p");
+                    summaryElem.innerText = summary;
+                    card.appendChild(summaryElem);
 
-                        const extraElem = document.createElement("code");
-                        extraElem.innerText = extra.filter(it=>it).join(" ");
-                        card.appendChild(extraElem);
+                    const extraElem = document.createElement("code");
+                    extraElem.innerText = extra.filter(it=>it).join(" ");
+                    card.appendChild(extraElem);
 
-                        container.appendChild(card);
-                    })
+                    container.appendChild(card);
+                }
             })
     </script>
 </body>
