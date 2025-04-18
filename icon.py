@@ -107,6 +107,9 @@ def android_to_svg(android_element):
             path_fill = path_fill.replace("@android:color/", "")
         if path_fill.startswith("@color/"):
             path_fill = find_icon_path(path_fill)
+        if path_fill.startswith("#") and len(path_fill) == 9:
+            path_fill = "#" + path_fill[3:]
+            
         svg_path = ET.Element('path', {
             'd': path_data,
             'fill': path_fill
@@ -236,7 +239,6 @@ def convert_to_png(icon_path, output_path):
             raise Exception("Unknown XML format")
         svg_tree = android_to_svg(vector_xml)
         svg_tree = fix_nones(svg_tree)
-        # resize the svg to 512x512
         svg_tree.set('width', '512')
         svg_tree.set('height', '512')
         svg_path = "icon.svg"
@@ -265,4 +267,4 @@ if __name__ == "__main__":
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     convert_to_png(find_icon_path(find_icon_name()), output_path)
     print(f"Icon saved to {output_path}")
-        
+    shutil.rmtree("apk.out")
