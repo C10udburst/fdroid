@@ -140,7 +140,7 @@
                 container.innerHTML = ""
                 for (let [package, app] of Object.entries(data.packages)) {
                     const name = t(app.metadata.name);
-                    const summary = t(app.summary) + "\n" + app.metadata.categories.join(", ");
+                    const summary = (t(app.metadata.summary) || t(app.metadata.description)) + "\n" + app.metadata.categories.join(", ");
                     const url = app.metadata.sourceCode || app.metadata.webSite || "#!";
                     let icon = t(app.metadata.icon);
                     if (icon) {
