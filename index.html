@@ -135,7 +135,11 @@
                         const name = app.querySelector("name")?.textContent;
                         const summary = app.querySelector("summary")?.textContent;
                         const url = app.querySelector("source")?.textContent || app.querySelector("web")?.textContent || "#!";
-                        
+                        let icon = app.querySelector("icon")?.textContent;
+                        if (icon) {
+                            icon = window.location.href + "/repo/icons/" + icon;
+                        }
+
                         let extra = [];
                         extra.push(app.querySelector("package version")?.textContent);
                         extra.push(app.querySelector("package nativecode")?.textContent);
@@ -145,7 +149,12 @@
                         const urlElem = document.createElement("a");
                         urlElem.href = url
                         urlElem.target = "_blank";
+                        urlElem.rel = "noopener noreferrer";
+                        urlElem.style = "display: flex; align-items: center; gap: 1em;"
                         urlElem.innerHTML = `<h3>${name}</h3>`
+                        if (icon) {
+                            urlElem.innerHTML = `<img src="${icon}" alt="${name} icon">` + urlElem.innerHTML;
+                        }
                         card.appendChild(urlElem);
 
                         const summaryElem = document.createElement("p");

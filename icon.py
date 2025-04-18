@@ -264,7 +264,8 @@ if __name__ == "__main__":
     
     run_apktool(apk_path)
     app_name = get_package_name()
-    output_path = os.path.join(output_path, f"{app_name}.png")
+    output_path = os.path.join(output_path, f"{app_name}/en-US/icon.png")
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
     convert_to_png(find_icon_path(find_icon_name()), output_path)
     print(f"Icon saved to {output_path}")
         
