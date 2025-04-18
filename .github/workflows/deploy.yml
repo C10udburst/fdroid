@@ -5,7 +5,6 @@ on:
   schedule:
     - cron: '0 4 */2 * *'
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
@@ -33,7 +32,7 @@ jobs:
       run: |
         sudo add-apt-repository -y ppa:fdroid/fdroidserver
         sudo apt update
-        sudo apt install -y wget p7zip-full software-properties-common fdroidserver python3 python3-pip ca-certificates aapt androguard convert
+        sudo apt install -y wget p7zip-full software-properties-common fdroidserver python3 python3-pip ca-certificates aapt androguard imagemagick
 
     - name: Force latest androguard
       run: |
@@ -54,12 +53,26 @@ jobs:
         ANDRO_PATH=$(python3 -c 'print(__import__("androguard").__file__.replace("/__init__.py", ""))')
         sudo ln -s $ANDRO_PATH/core/bytecode.py $ANDRO_PATH/core/bytecodes.py
 
+    - name: Restore APK cache
+      uses: actions/cache@v3
+      with:
+        path: fdroid/repo
+        key: ${{ runner.os }}-apk-cache-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-apk-cache-
+
     - name: Fetch apks
       run: python3 ./downloader/main.py
       env:
         TG_ID: ${{ secrets.TG_ID }}
         TG_HASH: ${{ secrets.TG_HASH }}
         KEYSTOREPASS: ${{ secrets.KEYSTOREPASS }}
+
+    - name: Save APK cache
+      uses: actions/cache@v3
+      with:
+        path: fdroid/repo
+        key: ${{ runner.os }}-apk-cache-${{ github.sha }}
 
     - name: List apks
       run: ls -lah fdroid/repo/**.apk
