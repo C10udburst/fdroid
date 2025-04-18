@@ -79,9 +79,8 @@ jobs:
 
     - name: Generate icon
       run: |
-        mkdir -p fdroid/repo/icons
         for apk in fdroid/repo/**.apk; do
-          python3 icon.py "$apk" "fdroid/repo/icons" || true
+          python3 icon.py "$apk" "fdroid/repo" || true
         done
 
     - name: Build fdroid
