@@ -33,7 +33,7 @@ jobs:
       run: |
         sudo add-apt-repository -y ppa:fdroid/fdroidserver
         sudo apt update
-        sudo apt install -y wget p7zip-full software-properties-common fdroidserver python3 python3-pip ca-certificates aapt androguard
+        sudo apt install -y wget p7zip-full software-properties-common fdroidserver python3 python3-pip ca-certificates aapt androguard convert
 
     - name: Force latest androguard
       run: |
@@ -46,6 +46,7 @@ jobs:
         python3 -m pip install --break-system-packages -r downloader/requirements.txt
         echo "${{ secrets.TG_SESSION }}" | base64 -d > main.session
         wget "https://github.com/REAndroid/APKEditor/releases/download/V1.2.7/APKEditor-1.2.7.jar" -O APKEditor.jar
+        wget "https://github.com/iBotPeaches/Apktool/releases/download/v2.11.1/apktool_2.11.1.jar" -O apktool.jar
 
     - name: Patch fdroidserver
       run: |
@@ -62,6 +63,13 @@ jobs:
 
     - name: List apks
       run: ls -lah fdroid/repo/**.apk
+
+    - name: Generate icon
+      run: |
+        mkdir -p fdroid/repo/icons
+        for apk in fdroid/repo/**.apk; do
+          python3 icon.py "$apk" "fdroid/repo" || true
+        done
 
     - name: Build fdroid
       run: |
