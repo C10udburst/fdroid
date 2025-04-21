@@ -53,13 +53,13 @@ jobs:
         ANDRO_PATH=$(python3 -c 'print(__import__("androguard").__file__.replace("/__init__.py", ""))')
         sudo ln -s $ANDRO_PATH/core/bytecode.py $ANDRO_PATH/core/bytecodes.py
 
-    - name: Restore APK cache
-      uses: actions/cache@v3
-      with:
-        path: fdroid/repo
-        key: ${{ runner.os }}-apk-cache-${{ github.sha }}
-        restore-keys: |
-          ${{ runner.os }}-apk-cache-
+    #- name: Restore APK cache
+    #  uses: actions/cache@v3
+    #  with:
+    #    path: fdroid/repo
+    #    key: ${{ runner.os }}-apk-cache-${{ github.sha }}
+    #    restore-keys: |
+    #      ${{ runner.os }}-apk-cache-
 
     - name: Fetch apks
       run: python3 ./downloader/main.py
@@ -68,11 +68,11 @@ jobs:
         TG_HASH: ${{ secrets.TG_HASH }}
         KEYSTOREPASS: ${{ secrets.KEYSTOREPASS }}
 
-    - name: Save APK cache
-      uses: actions/cache@v3
-      with:
-        path: fdroid/repo
-        key: ${{ runner.os }}-apk-cache-${{ github.sha }}
+    #- name: Save APK cache
+    #  uses: actions/cache@v3
+    #  with:
+    #    path: fdroid/repo
+    #    key: ${{ runner.os }}-apk-cache-${{ github.sha }}
 
     - name: List apks
       run: ls -lah fdroid/repo/**.apk
