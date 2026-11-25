@@ -16,8 +16,9 @@ cd "$(dirname "$(readlink -f "$0")")/.."
 
 REPO_DIR=fdroid
 OUT_DIR=public
-# `fdroid deploy` insists that the webroot ends in /fdroid
-SERVERWEBROOT="${SERVERWEBROOT:-/fdroid}"
+# Staged inside the workspace so no root rights are needed; `fdroid deploy`
+# insists that the webroot ends in /fdroid.
+SERVERWEBROOT="${SERVERWEBROOT:-$PWD/.wroot/fdroid}"
 
 if [[ -z "${KEYSTOREPASS:-}" ]]; then
   echo "::error::KEYSTOREPASS is not set"
@@ -98,6 +99,7 @@ fdroid_run fdroid update \
 echo "::endgroup::"
 
 echo "::group::fdroid deploy"
+echo "staging into $SERVERWEBROOT"
 mkdir -p "$SERVERWEBROOT"
 fdroid_run fdroid deploy --verbose
 # only the current APKs get published, the archive is dropped

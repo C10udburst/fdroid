@@ -199,6 +199,32 @@ def fix_nones(tree):
                 del elem.attrib[attr]
     return tree
 
+def strip_unresolved_colors(tree):
+    """Drop shapes whose paint could not be resolved.
+
+    Nested references such as fillColor="@drawable/$ic_launcher_background__0"
+    or "@android:color/background_dark" (Compose generates these) cannot be
+    inlined here.  Left in the SVG they are invalid, and renderers fall back to
+    the SVG default (black), which paints a black slab over the whole icon.
+
+    If literally nothing has a resolvable colour, fail instead: F-Droid keeps
+    using the icon fdroidserver extracted from the APK, which beats publishing
+    a blank or black square.
+    """
+    for parent in tree.iter():
+        for elem in list(parent):
+            paint = elem.get("fill") or elem.get("stroke")
+            if isinstance(paint, str) and paint.startswith("@"):
+                parent.remove(elem)
+
+    if not any(
+        (elem.get("fill") or elem.get("stroke") or "").startswith("#")
+        for elem in tree.iter()
+    ):
+        raise Exception("icon only references other drawables, cannot render it")
+
+    return tree
+
 def add_background_color(tree, color):
     w = tree.get('{http://schemas.android.com/apk/res/android}viewportWidth').replace("dp", "")
     h = tree.get('{http://schemas.android.com/apk/res/android}viewportWidth').replace("dp", "")
@@ -243,17 +269,22 @@ def convert_to_png(icon_path, output_path):
             foreground_path = find_icon_path(foreground_path)
             background_path = find_icon_path(background_path)
             
-            foreground_tree = ET.parse(foreground_path)
-            foreground_root = foreground_tree.getroot()
-            
-            if foreground_path is None or background_path is None:
-                raise Exception("Foreground or background path not found")
-            if background_path.startswith("#"):
+            if foreground_path is None:
+                raise Exception("Foreground icon not found")
+
+            foreground_root = ET.parse(foreground_path).getroot()
+
+            if background_path is None:
+                print("No background found, using the foreground alone")
+            elif background_path.startswith("#"):
                 foreground_root = add_background_color(foreground_root, background_path)
+            elif background_path.endswith(".xml"):
+                background_root = ET.parse(background_path).getroot()
+                foreground_root = add_background_tree(foreground_root, list(background_root))
             else:
-                background_tree = ET.parse(background_path)
-                background_root = background_tree.getroot()
-                foreground_root = add_background_tree(foreground_root, background_tree)
+                # a bitmap background cannot be merged into the foreground
+                # vector, but the foreground still makes a usable icon
+                print(f"Ignoring non-XML background {background_path}")
             vector_xml = foreground_root
         elif root.tag == 'vector':
             vector_xml = root
@@ -261,6 +292,7 @@ def convert_to_png(icon_path, output_path):
             raise Exception("Unknown XML format")
         svg_tree = android_to_svg(vector_xml)
         svg_tree = fix_nones(svg_tree)
+        svg_tree = strip_unresolved_colors(svg_tree)
         svg_tree.set('width', '512')
         svg_tree.set('height', '512')
         svg_path = "icon.svg"

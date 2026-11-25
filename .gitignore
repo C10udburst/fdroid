@@ -8,7 +8,7 @@ main.session
 public/
 apk.out/
 icon.svg
-wroot/
+.wroot/
 *.merged.apk
 APKEditor.jar
 apktool.jar
