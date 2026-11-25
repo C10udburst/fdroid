@@ -11,8 +11,9 @@ class Fdroid(DownloadModule):
         self.base_url = base_url
 
     async def fetch_index(self):
-        async with httpx.AsyncClient() as client:
+        async with httpx.AsyncClient(follow_redirects=True, timeout=30) as client:
             response = await client.get(f"{self.base_url}/repo/index.xml")
+            response.raise_for_status()
             return response.text
 
     async def find_url(self):

@@ -41,8 +41,11 @@ scanner_signature_sources:
 
 refresh_scanner: true
 
-serverwebroot:
-  - url: "/fdroid"
+# Where `fdroid deploy` stages the finished repo (must end in /fdroid).
+# A plain string is understood by every fdroidserver release; the list-of-dicts
+# form makes fdroidserver < 2.3 abort with "only accepts strings, lists, and
+# tuples".
+serverwebroot: /fdroid
 
 repo_keyalias: repokey
 keystore: keystore.jks

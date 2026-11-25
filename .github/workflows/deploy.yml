@@ -15,103 +15,76 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      TG_ID: ${{ secrets.TG_ID }}
+      TG_HASH: ${{ secrets.TG_HASH }}
+      KEYSTOREPASS: ${{ secrets.KEYSTOREPASS }}
+      KEYSTORE_B64: ${{ secrets.KEYSTORE }}
+      TG_SESSION_B64: ${{ secrets.TG_SESSION }}
+    steps:
+    - uses: actions/checkout@v6
+
+    # Everything the pipeline needs (fdroidserver, apksigner, apktool,
+    # apkeditor, imagemagick, 7z, rsync, python + httpx/telethon) comes from
+    # flake.lock.  No apt, no Launchpad PPA: those 503s used to silently fall
+    # back to Ubuntu's ancient fdroidserver, which then choked on config.yml.
+    - uses: cachix/install-nix-action@v32
+      with:
+        github_access_token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Install toolchain
+      run: |
+        nix develop --command bash -e -c '
+          fdroid --version
+          for t in fdroid apksigner java rsync apktool APKEditor 7z magick wget bwrap; do
+            command -v "$t" >/dev/null || { echo "::error::$t is missing from the dev shell"; exit 1; }
+          done
+          python3 -c "import httpx, telethon"
+        '
+
+    - name: Setup keystore and Telegram session
+      run: |
+        umask 077
+        printf '%s' "$KEYSTORE_B64" | base64 -d > fdroid/keystore.jks
+        test -s fdroid/keystore.jks
+        printf '%s' "$TG_SESSION_B64" | base64 -d > main.session
+
+    - name: Build repository
+      run: nix develop --command bash ./scripts/publish.sh
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v5
+      with:
+        path: public
+        retention-days: 2
+
+  # Splitting the deploy out of the build job is not cosmetic.  deploy-pages
+  # looks the artifact up a fraction of a second after it was finalized and the
+  # artifact service does not always return it yet, which fails the run with
+  # "Found 0 artifact(s)" (actions/deploy-pages#451).  A separate job lets the
+  # listing catch up, and re-running this job can no longer upload a second
+  # artifact, which used to wedge the run for good (actions/deploy-pages#338).
   deploy:
+    needs: build
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-24.04
     steps:
-    - uses: actions/checkout@v3
-
-    - name: Setup keystore
-      run: |
-        echo "${{ secrets.KEYSTORE }}" | base64 -d > fdroid/keystore.jks
-        chmod 600 fdroid/config.yml fdroid/keystore.jks
-    
-    - name: Install fdroid
-      run: |
-        sudo add-apt-repository -y ppa:fdroid/fdroidserver
-        sudo apt update
-        sudo apt install -y wget p7zip-full software-properties-common fdroidserver python3 python3-pip ca-certificates aapt androguard imagemagick
-
-    - name: Force latest androguard
-      run: |
-        sudo python3 -m pip install --break-system-packages --force-reinstall --no-deps 'androguard'
-        sudo python3 -m pip install --break-system-packages loguru apkInspector
-
-    - name: Setup downloader deps
-      run: |
-        mkdir -p fdroid/repo
-        python3 -m pip install --break-system-packages -r downloader/requirements.txt
-        echo "${{ secrets.TG_SESSION }}" | base64 -d > main.session
-        wget "https://github.com/REAndroid/APKEditor/releases/download/V1.2.7/APKEditor-1.2.7.jar" -O APKEditor.jar
-        wget "https://github.com/iBotPeaches/Apktool/releases/download/v2.11.1/apktool_2.11.1.jar" -O apktool.jar
-
-    - name: Patch fdroidserver
-      run: |
-        sudo patch -p1 -d/ < fdroid-update.py.patch
-        ANDRO_PATH=$(python3 -c 'print(__import__("androguard").__file__.replace("/__init__.py", ""))')
-        sudo ln -s $ANDRO_PATH/core/bytecode.py $ANDRO_PATH/core/bytecodes.py
-
-    #- name: Restore APK cache
-    #  uses: actions/cache@v3
-    #  with:
-    #    path: fdroid/repo
-    #    key: ${{ runner.os }}-apk-cache-${{ github.sha }}
-    #    restore-keys: |
-    #      ${{ runner.os }}-apk-cache-
-
-    - name: Fetch apks
-      run: python3 ./downloader/main.py
-      env:
-        TG_ID: ${{ secrets.TG_ID }}
-        TG_HASH: ${{ secrets.TG_HASH }}
-        KEYSTOREPASS: ${{ secrets.KEYSTOREPASS }}
-
-    #- name: Save APK cache
-    #  uses: actions/cache@v3
-    #  with:
-    #    path: fdroid/repo
-    #    key: ${{ runner.os }}-apk-cache-${{ github.sha }}
-
-    - name: List apks
-      run: ls -lah fdroid/repo/**.apk
-
-    - name: Generate icon
-      run: |
-        for apk in fdroid/repo/**.apk; do
-          python3 icon.py "$apk" "fdroid/repo" || true
-        done
-
-    - name: Build fdroid
-      run: |
-        cd fdroid
-        echo "" >> config.py
-        echo "keystorepass: ${KEYSTOREPASS}" >> config.yml
-        echo "keypass: ${KEYSTOREPASS}" >> config.yml
-        fdroid update \
-          --create-metadata \
-          --use-date-from-apk \
-          --rename-apks \
-          --verbose
-        sudo mkdir /fdroid
-        sudo chown $USER /fdroid
-        fdroid deploy --verbose
-        rm -rf /fdroid/archive
-        cd ..
-        mkdir public
-        mv -v /fdroid/* public/
-        cp index.html public/
-        cp index.html public/repo/
-        cp index.html public/404.html
-      env:
-        KEYSTOREPASS: ${{ secrets.KEYSTOREPASS }}
-
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: public
+    - name: Wait for the artifact listing to catch up
+      run: sleep 120
 
     - name: Deploy to GitHub Pages
       id: deployment
-      uses: actions/deploy-pages@v4
+      uses: actions/deploy-pages@v5
+      continue-on-error: true
+
+    - name: Back off before retrying
+      if: steps.deployment.outcome == 'failure'
+      run: sleep 300
+
+    - name: Deploy to GitHub Pages (retry)
+      if: steps.deployment.outcome == 'failure'
+      uses: actions/deploy-pages@v5

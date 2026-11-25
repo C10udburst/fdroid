@@ -1,15 +1,32 @@
 import os
 import glob
+import shlex
 import shutil
 import xml.etree.ElementTree as ET
 
-APKTOOL_PATH = r"java -jar apktool.jar"
-CONVERT_PATH = r"convert"
+# Overridable so the Nix dev shell can point at the packaged tools.
+APKTOOL_PATH = os.environ.get("APKTOOL_PATH") or r"java -jar apktool.jar"
+CONVERT_PATH = (
+    os.environ.get("CONVERT_PATH")
+    or ("magick" if shutil.which("magick") else "convert")
+)
 
 def run_apktool(apk_path):
     if os.path.exists("apk.out"):
         shutil.rmtree("apk.out")
-    res = os.system(f"{APKTOOL_PATH} -s -b --keep-broken-res --no-assets --force -o apk.out d {apk_path}")
+    # `apktool d [options] <apk>` is the spelling both 2.x and 3.x accept.
+    cmd = [
+        *shlex.split(APKTOOL_PATH),
+        "d",
+        "-s",
+        "--no-assets",
+        "--keep-broken-res",
+        "--force",
+        "-o",
+        "apk.out",
+        apk_path,
+    ]
+    res = os.system(shlex.join(cmd))
     if res != 0:
         raise Exception(f"apktool failed with error code {res}")
 

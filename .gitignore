@@ -3,3 +3,12 @@ wget-log
 __pycache__
 *.jks
 main.session
+
+# build output / local runs
+public/
+apk.out/
+icon.svg
+wroot/
+*.merged.apk
+APKEditor.jar
+apktool.jar

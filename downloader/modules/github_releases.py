@@ -16,11 +16,13 @@ class GithubReleases(DownloadModule):
     
     async def find_url(self):
         # use github api to find the latest apk dl
-        async with AsyncClient() as client:
+        async with AsyncClient(follow_redirects=True, timeout=30) as client:
             r = await client.get(f"https://api.github.com/repos/{self.repository}/releases?per_page={self.limit}")
         releases = r.json()
+        if isinstance(releases, dict):
+            raise Exception(f"GitHub API error for {self.repository}: {releases.get('message')}")
         if not releases:
-            raise Exception("No releases found")
+            raise Exception(f"No releases found in {self.repository}")
         for release in releases:
             if release["draft"] or (not self.prereleases and release["prerelease"]):
                 continue
